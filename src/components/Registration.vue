@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="white--text">
       Registration
   </v-container>
 </template>

@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Welcome from "../components/Welcome.vue";
 
 import Registration from "../components/Registration.vue";
-import Verificationn from "../components/Verfication.vue";
+import Verificationn from "../components/Verification.vue";
 
 Vue.use(VueRouter);
 
