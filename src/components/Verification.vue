@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="white--text">
       Verification
   </v-container>
 </template>
