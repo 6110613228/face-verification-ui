@@ -6,6 +6,10 @@
         <video id="camera" class="d-flex mx-auto"></video>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col><v-btn>Start</v-btn></v-col>
+      <v-col><v-btn>Stop</v-btn></v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -35,11 +39,14 @@ export default {
           camera.play();
         } catch (error) {
           // console.log
-          console.log(error)
-          console.log("Your browser doesn't support ImageCapture API, Please change your browser to chrome.");
+          console.log(error);
+          console.log(
+            "Your browser doesn't support ImageCapture API, Please change your browser to chrome."
+          );
 
           // Alert
-          this.alert_text = "Your browser doesn't support ImageCapture API, please change your browser to Chrome/Edge.";
+          this.alert_text =
+            "Your browser doesn't support ImageCapture API, please change your browser to Chrome/Edge.";
           this.alert_type = "error";
           this.is_alert = true;
         }
@@ -49,7 +56,7 @@ export default {
         console.log(error);
 
         // Alert
-        this.alert_text = "Can't access device or no device found."
+        this.alert_text = "Can't access user's device or no device found.";
         this.alert_type = "error";
         this.is_alert = true;
       });
