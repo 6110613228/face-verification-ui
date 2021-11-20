@@ -2,7 +2,7 @@
   <v-container class="white--text">
     <v-row>
       <v-col>
-        <video id="camera"></video>
+        <video id="camera" class="d-flex mx-auto"></video>
       </v-col>
     </v-row>
   </v-container>
@@ -39,4 +39,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#camera {
+  max-width: 80%;
+}
+</style>
