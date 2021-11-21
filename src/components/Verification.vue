@@ -1,6 +1,9 @@
 <template>
   <v-container class="white--text">
-    <v-alert v-if="is_alert" :type="alert_type">{{ alert_text }}</v-alert>
+    <v-alert v-if="is_alert" :type="alert_type" border="left">{{
+      alert_text
+    }}</v-alert>
+    <v-btn @click="is_alert = !is_alert">toggle alert</v-btn>
     <v-row>
       <v-col>
         <video id="camera" class="d-flex mx-auto"></video>
@@ -33,11 +36,13 @@ export default {
       this.init();
     },
     stopCamera() {
-      this.stream.getVideoTracks().forEach(function (track) { // Stop tracks
+      this.stream.getVideoTracks().forEach(function (track) {
+        // Stop tracks
         track.stop();
       });
     },
-    init() { // Initial camera
+    init() {
+      // Initial camera
       navigator.mediaDevices
         .getUserMedia({
           video: { facingMode: "user" },
