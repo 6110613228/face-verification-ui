@@ -3,7 +3,6 @@
     <v-alert v-if="is_alert" :type="alert_type" border="left">{{
       alert_text
     }}</v-alert>
-    <v-btn @click="is_alert = !is_alert">toggle alert</v-btn>
     <v-row>
       <v-col>
         <video id="camera" class="d-flex mx-auto"></video>
