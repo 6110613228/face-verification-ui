@@ -105,7 +105,7 @@ export default {
       };
 
       this.webSocket.onmessage = (event) => {
-        this.web_socket_response = event.data;
+        this.web_socket_response = JSON.parse(event.data);
       };
 
       this.webSocket.onclose = () => {
