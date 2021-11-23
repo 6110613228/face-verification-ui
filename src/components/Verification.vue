@@ -25,6 +25,8 @@
         </v-btn>
       </v-col>
     </v-row>
+    <v-btn @click="webSocketSendImage">send</v-btn>
+    {{ web_socket_response }}
   </v-container>
 </template>
 
@@ -33,8 +35,10 @@ export default {
   data() {
     return {
       webSocket: null,
-      ImageCapture: null,
+      imageCapture: null,
       stream: null,
+
+      web_socket_response: null,
 
       is_showtext: true,
       showtext: "Same person",
@@ -45,7 +49,8 @@ export default {
     };
   },
   mounted() {
-    this.init();
+    this.cameraInit();
+    this.webSocketInit();
   },
   methods: {
     startCamera() {
@@ -57,7 +62,12 @@ export default {
         track.stop();
       });
     },
-    init() {
+    webSocketSendImage() {
+      this.imageCapture.takePhoto().then((blob) => {
+        this.webSocket.send(blob);
+      });
+    },
+    cameraInit() {
       // Initial camera
       navigator.mediaDevices
         .getUserMedia({
@@ -68,7 +78,7 @@ export default {
           this.stream = stream;
           const track = stream.getVideoTracks()[0];
           try {
-            this.ImageCapture = new ImageCapture(track);
+            this.imageCapture = new ImageCapture(track);
             let camera = document.getElementById("camera");
             camera.srcObject = stream;
             camera.play();
@@ -95,6 +105,21 @@ export default {
           this.alert_type = "error";
           this.is_alert = true;
         });
+    },
+    webSocketInit() {
+      this.webSocket = new WebSocket("ws://127.0.0.1:8000/ws/verification");
+
+      this.webSocket.onopen = () => {
+        console.log("Connection opened.");
+      };
+
+      this.webSocket.onmessage = (event) => {
+        this.web_socket_response = event.data;
+      };
+
+      this.webSocket.onclose = () => {
+        console.log("Connectin closed.");
+      };
     },
   },
 };
