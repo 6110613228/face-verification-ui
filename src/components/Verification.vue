@@ -111,6 +111,11 @@ export default {
 
       this.webSocket.onclose = () => {
         console.log("Connectin closed.");
+
+        // Alert
+        this.alert_text = "WebSocket connection is closed.";
+        this.alert_type = "info";
+        this.is_alert = true;
       };
     },
   },
