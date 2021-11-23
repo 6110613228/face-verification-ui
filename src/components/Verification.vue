@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     startCamera() {
-      this.init();
+      this.Init();
     },
     stopCamera() {
       this.stream.getVideoTracks().forEach(function (track) {
