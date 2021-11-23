@@ -34,10 +34,11 @@
 export default {
   data() {
     return {
-      webSocket: null,
-      imageCapture: null,
+      camera: null,
+      canvas: null,
       stream: null,
 
+      webSocket: null,
       web_socket_response: null,
 
       is_showtext: true,
@@ -49,7 +50,7 @@ export default {
     };
   },
   mounted() {
-    this.cameraInit();
+    this.Init();
     this.webSocketInit();
   },
   methods: {
@@ -67,7 +68,10 @@ export default {
         this.webSocket.send(blob);
       });
     },
-    cameraInit() {
+    Init() {
+      this.camera = document.getElementById("camera");
+      this.canvas = document.createElement("canvas");
+
       // Initial camera
       navigator.mediaDevices
         .getUserMedia({
@@ -76,32 +80,18 @@ export default {
         })
         .then((stream) => {
           this.stream = stream;
-          const track = stream.getVideoTracks()[0];
-          try {
-            this.imageCapture = new ImageCapture(track);
-            let camera = document.getElementById("camera");
-            camera.srcObject = stream;
-            camera.play();
-          } catch (error) {
-            // console.log
-            console.log(error);
-            console.log(
-              "Your browser doesn't support ImageCapture API, Please change your browser to Chrome/Edge."
-            );
-
-            // Alert
-            this.alert_text =
-              "Your browser doesn't support ImageCapture API, please change your browser to Chrome/Edge.";
-            this.alert_type = "error";
-            this.is_alert = true;
-          }
+          let { width, height } = stream.getTracks()[0].getSettings();
+          this.canvas.width = width;
+          this.canvas.height = height;
+          this.camera.srcObject = stream;
+          this.camera.play();
         })
         .catch((error) => {
           // console.log
           console.log(error);
 
           // Alert
-          this.alert_text = "Can't access user's device or no device found.";
+          this.alert_text = error;
           this.alert_type = "error";
           this.is_alert = true;
         });
