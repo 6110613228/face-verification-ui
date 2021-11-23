@@ -25,7 +25,6 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-btn @click="webSocketSendImage">send</v-btn>
   </v-container>
 </template>
 
