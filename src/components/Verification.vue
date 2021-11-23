@@ -3,14 +3,27 @@
     <v-alert v-if="is_alert" :type="alert_type" border="left">{{
       alert_text
     }}</v-alert>
-    <v-row>
+    <v-row v-if="is_showtext">
+      <v-col class="text-center">
+        <h1>{{ showtext }}</h1>
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
       <v-col>
         <video id="camera" class="d-flex mx-auto"></video>
       </v-col>
     </v-row>
     <v-row>
-      <v-col><v-btn @click="startCamera">Start</v-btn></v-col>
-      <v-col><v-btn @click="stopCamera">Stop</v-btn></v-col>
+      <v-col class="text-right">
+        <v-btn depressed color="primary" @click="startCamera">
+          <v-icon>mdi-play</v-icon>
+        </v-btn>
+      </v-col>
+      <v-col
+        ><v-btn @click="stopCamera" depressed color="error">
+          <v-icon>mdi-stop</v-icon>
+        </v-btn>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -19,8 +32,12 @@
 export default {
   data() {
     return {
+      webSocket: null,
       ImageCapture: null,
       stream: null,
+
+      is_showtext: true,
+      showtext: "Same person",
 
       is_alert: false,
       alert_type: "success",
@@ -59,7 +76,7 @@ export default {
             // console.log
             console.log(error);
             console.log(
-              "Your browser doesn't support ImageCapture API, Please change your browser to chrome."
+              "Your browser doesn't support ImageCapture API, Please change your browser to Chrome/Edge."
             );
 
             // Alert
@@ -85,6 +102,6 @@ export default {
 
 <style>
 #camera {
-  max-width: 80%;
+  max-width: 70%;
 }
 </style>
