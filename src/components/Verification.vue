@@ -1,5 +1,5 @@
 <template>
-  <v-container class="white--text">
+  <v-container>
     <v-alert v-if="is_alert" :type="alert_type" border="left">{{
       alert_text
     }}</v-alert>
