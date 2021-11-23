@@ -5,7 +5,7 @@
     }}</v-alert>
     <v-row v-if="is_showtext">
       <v-col class="text-center">
-        <h1>{{ showtext }}</h1>
+        <h1>{{ messageFormatted }}</h1>
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -25,6 +25,7 @@
         </v-btn>
       </v-col>
     </v-row>
+    <v-btn @click="webSocketSendImage">send</v-btn>
   </v-container>
 </template>
 
@@ -37,10 +38,10 @@ export default {
       stream: null,
 
       webSocket: null,
-      web_socket_response: null,
 
-      is_showtext: true,
-      showtext: "Same person",
+      is_showtext: false,
+      message: "",
+      count_face: 0,
 
       is_alert: false,
       alert_type: "success",
@@ -105,7 +106,15 @@ export default {
       };
 
       this.webSocket.onmessage = (event) => {
-        this.web_socket_response = JSON.parse(event.data);
+        // Set showtext to true
+        this.is_showtext = true;
+
+        // Parse JSON string to JSON object
+        let web_socket_response = JSON.parse(event.data);
+
+        // Assign variables
+        this.message = web_socket_response.message;
+        this.count_face = web_socket_response.count_face;
       };
 
       this.webSocket.onclose = () => {
@@ -116,6 +125,11 @@ export default {
         this.alert_type = "info";
         this.is_alert = true;
       };
+    },
+  },
+  computed: {
+    messageFormatted() {
+      return this.message + " " + this.count_face;
     },
   },
 };
