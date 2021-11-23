@@ -26,7 +26,6 @@
       </v-col>
     </v-row>
     <v-btn @click="webSocketSendImage">send</v-btn>
-    {{ web_socket_response }}
   </v-container>
 </template>
 
@@ -64,7 +63,10 @@ export default {
       });
     },
     webSocketSendImage() {
-      this.imageCapture.takePhoto().then((blob) => {
+      this.canvas
+        .getContext("2d")
+        .drawImage(this.camera, 0, 0, this.canvas.width, this.canvas.height);
+      this.canvas.toBlob((blob) => {
         this.webSocket.send(blob);
       });
     },
