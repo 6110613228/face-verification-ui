@@ -15,17 +15,17 @@
     </v-row>
     <v-row>
       <v-col class="text-right">
-        <v-btn depressed color="primary" @click="startCamera">
-          <v-icon>mdi-play</v-icon>
+        <v-btn depressed color="primary" @click="toggleCamera">
+          <v-icon v-if="stream == null">mdi-webcam</v-icon>
+          <v-icon v-else>mdi-webcam-off</v-icon>
         </v-btn>
       </v-col>
       <v-col
-        ><v-btn @click="stopCamera" depressed color="error">
-          <v-icon>mdi-stop</v-icon>
-        </v-btn>
-      </v-col>
+        ><v-btn @click="webSocketSendImage"
+          ><v-icon>mdi-play</v-icon></v-btn
+        ></v-col
+      >
     </v-row>
-    <v-btn @click="webSocketSendImage">send</v-btn>
   </v-container>
 </template>
 
@@ -53,14 +53,17 @@ export default {
     this.webSocketInit();
   },
   methods: {
-    startCamera() {
-      this.Init();
-    },
-    stopCamera() {
-      this.stream.getVideoTracks().forEach(function (track) {
-        // Stop tracks
-        track.stop();
-      });
+    toggleCamera() {
+      if (this.stream != null) {
+        this.stream.getVideoTracks().forEach(function (track) {
+          // Stop tracks
+          track.stop();
+        });
+
+        this.stream = null;
+      } else {
+        this.Init();
+      }
     },
     webSocketSendImage() {
       this.canvas
@@ -74,29 +77,31 @@ export default {
       this.camera = document.getElementById("camera");
       this.canvas = document.createElement("canvas");
 
-      // Initial camera
-      navigator.mediaDevices
-        .getUserMedia({
-          video: { facingMode: "user" },
-          audio: false,
-        })
-        .then((stream) => {
-          this.stream = stream;
-          let { width, height } = stream.getTracks()[0].getSettings();
-          this.canvas.width = width;
-          this.canvas.height = height;
-          this.camera.srcObject = stream;
-          this.camera.play();
-        })
-        .catch((error) => {
-          // console.log
-          console.log(error);
+      if (this.stream === null) {
+        // Initial camera
+        navigator.mediaDevices
+          .getUserMedia({
+            video: { facingMode: "user" },
+            audio: false,
+          })
+          .then((stream) => {
+            this.stream = stream;
+            let { width, height } = stream.getTracks()[0].getSettings();
+            this.canvas.width = width;
+            this.canvas.height = height;
+            this.camera.srcObject = stream;
+            this.camera.play();
+          })
+          .catch((error) => {
+            // console.log
+            console.log(error);
 
-          // Alert
-          this.alert_text = error;
-          this.alert_type = "error";
-          this.is_alert = true;
-        });
+            // Alert
+            this.alert_text = error;
+            this.alert_type = "error";
+            this.is_alert = true;
+          });
+      }
     },
     webSocketInit() {
       this.webSocket = new WebSocket("ws://127.0.0.1:8000/ws/verification");
