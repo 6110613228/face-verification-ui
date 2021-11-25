@@ -21,8 +21,9 @@
         </v-btn>
       </v-col>
       <v-col
-        ><v-btn @click="webSocketSendImage"
-          ><v-icon>mdi-play</v-icon></v-btn
+        ><v-btn @click="toggleSendImage"
+          ><v-icon v-if="is_send">mdi-stop</v-icon>
+          <v-icon v-else>mdi-play</v-icon></v-btn
         ></v-col
       >
     </v-row>
@@ -37,7 +38,9 @@ export default {
       canvas: null,
       stream: null,
 
+      is_send: false,
       webSocket: null,
+      interval: null,
 
       is_showtext: false,
       count_face: 0,
@@ -68,6 +71,16 @@ export default {
         this.is_showtext = false;
       } else {
         this.Init();
+      }
+    },
+    toggleSendImage() {
+      if (!this.is_send) {
+        this.is_send = true;
+        this.interval = setInterval(this.webSocketSendImage, 750);
+      } else {
+        this.is_send = false;
+        clearInterval(this.interval);
+        this.interval = null;
       }
     },
     webSocketSendImage() {
@@ -126,7 +139,7 @@ export default {
         this.count_face = web_socket_response.count_face;
         this.is_same_person = web_socket_response.is_same_person;
         this.found_face_bb = web_socket_response.found_face_bb;
-        //console.log(web_socket_response);
+        console.log(web_socket_response);
       };
 
       this.webSocket.onclose = () => {
