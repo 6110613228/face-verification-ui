@@ -42,6 +42,7 @@ export default {
       is_showtext: false,
       message: "",
       count_face: 0,
+      is_same_person: "",
 
       is_alert: false,
       alert_type: "success",
@@ -120,6 +121,8 @@ export default {
         // Assign variables
         this.message = web_socket_response.message;
         this.count_face = web_socket_response.count_face;
+        this.is_same_person = web_socket_response.is_same_person;
+        console.log(web_socket_response);
       };
 
       this.webSocket.onclose = () => {
@@ -134,7 +137,7 @@ export default {
   },
   computed: {
     messageFormatted() {
-      return this.message + " " + this.count_face;
+      return this.message + " " + this.count_face + " " + this.is_same_person;
     },
   },
 };
