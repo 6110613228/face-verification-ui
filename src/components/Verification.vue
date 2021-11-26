@@ -78,7 +78,7 @@ export default {
         // Sending image while there is mediaStream (Happy)
         if (this.webSocket.readyState == this.webSocket.OPEN) {
           this.is_sending = true;
-          this.interval = setInterval(this.webSocketSendImage, 750);
+          this.interval = setInterval(this.webSocketSendImage, 1000);
         } else {
           // Alert
           this.alert_text = "WebSocket is on closed state. You can't send images.";
