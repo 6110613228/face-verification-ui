@@ -22,7 +22,7 @@
       </v-col>
       <v-col
         ><v-btn @click="toggleSendImage"
-          ><v-icon v-if="is_send">mdi-stop</v-icon>
+          ><v-icon v-if="is_sending">mdi-stop</v-icon>
           <v-icon v-else>mdi-play</v-icon></v-btn
         ></v-col
       >
@@ -38,7 +38,7 @@ export default {
       canvas: null,
       stream: null,
 
-      is_send: false,
+      is_sending: false,
       webSocket: null,
       interval: null,
 
@@ -74,14 +74,39 @@ export default {
       }
     },
     toggleSendImage() {
-      if (!this.is_send) {
-        this.is_send = true;
+      if (!this.is_sending && this.stream != null) {
+        // Sending image while there is mediaStream (Happy)
+        this.is_sending = true;
         this.interval = setInterval(this.webSocketSendImage, 750);
-      } else {
-        this.is_send = false;
+
+      } else if (!this.is_sending && this.stream == null) {
+        // Try to send image while no mediaStream
+
+        // Alert
+        this.alert_text = "Can't send images now. No camera device found!";
+        this.alert_type = "info";
+        this.is_alert = true;
+        
+      } else if (this.is_sending && this.stream == null) {
+        // Sending image while no mediaStream
+        // Something is very worng
+
+        // Stop sendding image
+        this.is_sending = false;
         clearInterval(this.interval);
         this.interval = null;
-      }
+
+        // Alert
+        this.alert_text = "Something wrong please refresh page and try again!";
+        this.alert_type = "error";
+        this.is_alert = true;
+
+      } else {
+        // Stop sendding image
+        this.is_sending = false;
+        clearInterval(this.interval);
+        this.interval = null;
+      } // End if
     },
     webSocketSendImage() {
       this.canvas
