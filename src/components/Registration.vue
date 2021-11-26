@@ -29,7 +29,19 @@
               Information about what we are going to do
             </v-stepper-content>
             <v-stepper-content step="1">
-              <v-container></v-container>
+              <v-row>
+                <v-col>
+                  <video id="camera" controls></video>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn @click="startRecord"><v-icon>mdi-play</v-icon></v-btn>
+                </v-col>
+                <v-col>
+                  <v-btn @click="stopRecord"><v-icon>mdi-stop</v-icon></v-btn>
+                </v-col>
+              </v-row>
             </v-stepper-content>
             <v-stepper-content step="2"> step2 </v-stepper-content>
             <v-stepper-content step="3"> step3 </v-stepper-content>
@@ -48,7 +60,7 @@
     <v-row>
       <v-col>
         <v-btn @click="step = 0">begin</v-btn>
-        <v-btn @click="step = 1">step1</v-btn>
+        <v-btn @click="step1">step1</v-btn>
         <v-btn @click="step = 2">step2</v-btn>
         <v-btn @click="step = 3">step3</v-btn>
         <v-btn @click="step = 4">finish page</v-btn>
@@ -63,7 +75,67 @@ export default {
   data() {
     return {
       step: 0,
+
+      stream: null,
+      camera: null,
+      mediaRecorder: null,
+      chunks: [],
     };
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    step1() {
+      this.step = 1;
+      this.cameraInit();
+    },
+    startRecord() {
+      this.mediaRecorder.start();
+    },
+    stopRecord() {
+      this.mediaRecorder.stop();
+    },
+    cameraInit() {
+      navigator.mediaDevices
+        .getUserMedia({
+          video: { facingMode: "user" },
+          audio: false,
+        })
+        .then((stream) => {
+          this.stream = stream;
+          this.camera.srcObject = stream;
+          this.camera.play();
+
+          this.mediaRecorder = new MediaRecorder(stream);
+
+          this.mediaRecorder.onstop = () => {
+            console.log("Stop");
+
+            this.mediaRecorder = null;
+            this.camera.pause();
+            this.stream.getVideoTracks().forEach((track) => {
+              track.stop();
+              this.camera.srcObject.removeTrack(track);
+            });
+
+            this.camera.srcObject = null;
+
+            var blob = new Blob(this.chunks, { type: "video/mp4" });
+            this.camera.src = URL.createObjectURL(blob);
+          };
+
+          this.mediaRecorder.ondataavailable = (e) => {
+            this.chunks.push(e.data);
+          };
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    init() {
+      this.camera = document.getElementById("camera");
+    },
   },
 };
 </script>
