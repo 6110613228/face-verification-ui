@@ -76,9 +76,15 @@ export default {
     toggleSendImage() {
       if (!this.is_sending && this.stream != null) {
         // Sending image while there is mediaStream (Happy)
-        this.is_sending = true;
-        this.interval = setInterval(this.webSocketSendImage, 750);
-
+        if (this.webSocket.readyState == this.webSocket.OPEN) {
+          this.is_sending = true;
+          this.interval = setInterval(this.webSocketSendImage, 750);
+        } else {
+          // Alert
+          this.alert_text = "WebSocket is on closed state. You can't send images.";
+          this.alert_type = "error";
+          this.is_alert = true;
+        }
       } else if (!this.is_sending && this.stream == null) {
         // Try to send image while no mediaStream
 
@@ -86,7 +92,6 @@ export default {
         this.alert_text = "Can't send images now. No camera device found!";
         this.alert_type = "info";
         this.is_alert = true;
-        
       } else if (this.is_sending && this.stream == null) {
         // Sending image while no mediaStream
         // Something is very worng
@@ -100,7 +105,6 @@ export default {
         this.alert_text = "Something wrong please refresh page and try again!";
         this.alert_type = "error";
         this.is_alert = true;
-
       } else {
         // Stop sendding image
         this.is_sending = false;
@@ -167,11 +171,12 @@ export default {
         console.log(web_socket_response);
       };
 
-      this.webSocket.onclose = () => {
+      this.webSocket.onclose = (event) => {
         console.log("Connectin closed.");
 
         // Alert
-        this.alert_text = "WebSocket connection is closed.";
+        this.alert_text =
+          event.reason == "" ? "WebSocket connection is closed." : event.reason;
         this.alert_type = "info";
         this.is_alert = true;
       };
