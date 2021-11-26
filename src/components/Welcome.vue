@@ -2,10 +2,10 @@
   <v-container class="white--text" fill-height>
     <v-row>
       <v-col>
-        <v-btn to="/registration" block x-large>Registration</v-btn>
+        <v-btn to="/registration" block x-large color="black" class="white--text">Registration</v-btn>
       </v-col>
       <v-col>
-        <v-btn to="/verification" block x-large>Face verification</v-btn>
+        <v-btn to="/verification" block x-large color="black" class="white--text">Face verification</v-btn>
       </v-col>
     </v-row>
   </v-container>
