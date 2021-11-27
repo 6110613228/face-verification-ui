@@ -36,7 +36,9 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn @click="startRecord"><v-icon>mdi-play</v-icon></v-btn>
+                  <v-btn @click="startRecord" color="primary"
+                    ><v-icon>mdi-video</v-icon></v-btn
+                  >
                 </v-col>
                 <v-col>
                   <v-btn @click="stopRecord"><v-icon>mdi-stop</v-icon></v-btn>
@@ -44,7 +46,7 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="2"> step2 </v-stepper-content>
-            <v-stepper-content step="3"> step3 </v-stepper-content>
+            <v-stepper-content step="3"> Waiting </v-stepper-content>
             <v-stepper-content step="4">
               <!-- Waiting for process -->
               Finish
@@ -97,6 +99,7 @@ export default {
       this.mediaRecorder.stop();
     },
     cameraInit() {
+      // Screen flickering can be improve by using canvas. I think
       navigator.mediaDevices
         .getUserMedia({
           video: { facingMode: "user" },
@@ -109,15 +112,15 @@ export default {
 
           this.mediaRecorder = new MediaRecorder(stream);
 
+          this.mediaRecorder.onstart = () => {
+            console.log("start");
+
+            this.camera.srcObject = stream;
+            this.camera.play();
+          };
+
           this.mediaRecorder.onstop = () => {
             console.log("Stop");
-
-            this.mediaRecorder = null;
-            this.camera.pause();
-            this.stream.getVideoTracks().forEach((track) => {
-              track.stop();
-              this.camera.srcObject.removeTrack(track);
-            });
 
             this.camera.srcObject = null;
 
