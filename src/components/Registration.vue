@@ -53,13 +53,18 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="2">
-              <v-file-input
+              <v-row>
+                <v-col>
+                  <v-text-field></v-text-field>
+                  <v-file-input
                 v-model="image_file"
                 label="Upload your image"
                 placeholder="Select your files"
                 filled
                 accept="image/*"
               ></v-file-input>
+                </v-col>
+              </v-row>
               <v-row>
                 <v-col>
                   <v-img :src="fileToUrl()" max-height="500" contain></v-img>
