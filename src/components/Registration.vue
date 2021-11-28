@@ -26,7 +26,14 @@
           <v-stepper-items>
             <v-stepper-content step="0">
               <!-- Information -->
-              Information about what we are going to do
+              <v-row>
+                <v-col><p>Information about what we are going to do</p></v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn @click="step1" color="primary">I'm ready</v-btn>
+                </v-col>
+              </v-row>
             </v-stepper-content>
             <v-stepper-content step="1">
               <v-row>
@@ -48,35 +55,64 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn color="primary">next step</v-btn>
+                  <v-btn @click="step2" color="primary">next step</v-btn>
+                  <v-btn @click="back" color="depress">back</v-btn>
                 </v-col>
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="2">
               <v-row>
                 <v-col>
-                  <v-text-field></v-text-field>
+                  <v-text-field
+                    v-model="name"
+                    label="Your name"
+                    hint="name"
+                  ></v-text-field>
+                </v-col>
+                <v-col>
                   <v-file-input
-                v-model="image_file"
-                label="Upload your image"
-                placeholder="Select your files"
-                filled
-                accept="image/*"
-              ></v-file-input>
+                    v-model="image_file"
+                    label="Upload your image"
+                    placeholder="Select your files"
+                    filled
+                    accept="image/*"
+                  ></v-file-input>
                 </v-col>
               </v-row>
-              <v-row>
+              <v-row no-gutters>
                 <v-col>
                   <v-img :src="fileToUrl()" max-height="500" contain></v-img>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn color="primary">next step</v-btn>
+                  <v-btn @click="step3" color="primary"
+                    >Send my informations</v-btn
+                  >
+                  <v-btn @click="back" color="depress">back</v-btn>
                 </v-col>
               </v-row>
             </v-stepper-content>
-            <v-stepper-content step="3"> Waiting </v-stepper-content>
+            <v-stepper-content step="3" class="text-center">
+              <v-row>
+                <v-col>
+                  Please wait
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-progress-circular
+                  indeterminate
+                  color="primary"
+                ></v-progress-circular>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  While We're processing your informations.
+                </v-col>
+              </v-row>
+            </v-stepper-content>
             <v-stepper-content step="4">
               <!-- Waiting for process -->
               Finish
@@ -89,20 +125,12 @@
         </v-stepper>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <v-btn @click="step = 0">begin</v-btn>
-        <v-btn @click="step1">step1</v-btn>
-        <v-btn @click="step = 2">step2</v-btn>
-        <v-btn @click="step = 3">step3</v-btn>
-        <v-btn @click="step = 4">finish page</v-btn>
-        <v-btn @click="step = 5">actually finish</v-btn>
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
 <script>
+import { axios } from "axios";
+
 export default {
   data() {
     return {
@@ -113,6 +141,7 @@ export default {
       mediaRecorder: null,
       chunks: [],
 
+      name: "",
       image_file: null,
     };
   },
@@ -129,6 +158,15 @@ export default {
     step1() {
       this.step = 1;
       this.cameraInit();
+    },
+    step2() {
+      this.step = 2;
+    },
+    step3() {
+      this.step = 3;
+    },
+    back() {
+      this.step--;
     },
     startRecord() {
       this.mediaRecorder.start();
@@ -173,6 +211,9 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    sendData() {
+      axios.get();
     },
     init() {
       this.camera = document.getElementById("camera");
