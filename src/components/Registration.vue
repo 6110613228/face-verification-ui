@@ -30,22 +30,47 @@
             </v-stepper-content>
             <v-stepper-content step="1">
               <v-row>
-                <v-col>
+                <v-col class="text-center">
                   <video id="camera" controls></video>
                 </v-col>
               </v-row>
               <v-row>
-                <v-col>
-                  <v-btn @click="startRecord" color="primary"
-                    ><v-icon>mdi-video</v-icon></v-btn
-                  >
+                <v-col class="text-right">
+                  <v-btn @click="startRecord" color="primary">
+                    <v-icon>mdi-video</v-icon>
+                  </v-btn>
                 </v-col>
+                <v-col
+                  ><v-btn @click="stopRecord"
+                    ><v-icon>mdi-stop</v-icon></v-btn
+                  ></v-col
+                >
+              </v-row>
+              <v-row>
                 <v-col>
-                  <v-btn @click="stopRecord"><v-icon>mdi-stop</v-icon></v-btn>
+                  <v-btn color="primary">next step</v-btn>
                 </v-col>
               </v-row>
             </v-stepper-content>
-            <v-stepper-content step="2"> step2 </v-stepper-content>
+            <v-stepper-content step="2">
+              <v-file-input
+                v-model="image_file"
+                label="Upload your image"
+                placeholder="Select your files"
+                filled
+                accept="image/*"
+              ></v-file-input>
+              <v-row>
+                <v-col>
+                  <v-img :src="fileToUrl()" max-height="500" contain></v-img>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn color="primary">next step</v-btn>
+                </v-col>
+              </v-row>
+            </v-stepper-content>
             <v-stepper-content step="3"> Waiting </v-stepper-content>
             <v-stepper-content step="4">
               <!-- Waiting for process -->
@@ -82,12 +107,20 @@ export default {
       camera: null,
       mediaRecorder: null,
       chunks: [],
+
+      image_file: null,
     };
   },
   mounted() {
     this.init();
   },
   methods: {
+    fileToUrl() {
+      if (this.image_file != null) {
+        return URL.createObjectURL(this.image_file);
+      }
+      return "";
+    },
     step1() {
       this.step = 1;
       this.cameraInit();
