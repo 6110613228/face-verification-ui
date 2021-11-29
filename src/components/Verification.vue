@@ -151,7 +151,7 @@ export default {
       }
     },
     webSocketInit() {
-      this.webSocket = new WebSocket("ws://127.0.0.1:8000/ws/verification");
+      this.webSocket = new WebSocket("wss://");
 
       this.webSocket.onopen = () => {
         console.log("Connection opened.");
