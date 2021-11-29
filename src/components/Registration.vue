@@ -7,18 +7,26 @@
             <v-stepper-step :complete="step > 0" step="0">Begin</v-stepper-step>
             <v-divider></v-divider>
             <v-stepper-step :complete="step > 1" step="1"
-              >Step 1</v-stepper-step
+              >Example</v-stepper-step
             >
             <v-divider></v-divider>
             <v-stepper-step :complete="step > 2" step="2"
-              >Step 2</v-stepper-step
+              >Step 1</v-stepper-step
             >
             <v-divider></v-divider>
             <v-stepper-step :complete="step > 3" step="3"
-              >Step 3</v-stepper-step
+              >Example</v-stepper-step
             >
             <v-divider></v-divider>
-            <v-stepper-step :complete="step > 4" step="F"
+            <v-stepper-step :complete="step > 4" step="4"
+              >Step 2</v-stepper-step
+            >
+            <v-divider></v-divider>
+            <v-stepper-step :complete="step > 5" step="5"
+              >Waiting</v-stepper-step
+            >
+            <v-divider></v-divider>
+            <v-stepper-step :complete="step > 6" step="6"
               >Finish</v-stepper-step
             >
           </v-stepper-header>
@@ -27,7 +35,18 @@
             <v-stepper-content step="0">
               <!-- Information -->
               <v-row>
-                <v-col><p>Information about what we are going to do</p></v-col>
+                <v-col>
+                  <p>
+                    Face Registration:
+                    ลงทะเบียนข้อมูลใบหน้าเพื่อให้ระบบของเราทราบว่าคุณคือใคร
+                    โดยจะเก็บข้อมูลทั้งหมดสามอย่าง
+                  </p>
+                  <ol>
+                    <li>วีดีโอหน้าพร้อมบัตร</li>
+                    <li>ชื่อของคุณ</li>
+                    <li>ภาพถ่ายหน้าบัตร</li>
+                  </ol>
+                </v-col>
               </v-row>
               <v-row>
                 <v-col>
@@ -36,6 +55,61 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="1">
+              <v-row>
+                <v-col>
+                  <h1>Video หน้าพร้อมบัตร</h1>
+                  <p>
+                    ถ่ายวีดีโอหน้าพร้อมบัตรตาม Mask ที่กำหนด
+                    โดยหันหน้าไปทางซ้ายช้าๆเเละทางขวาช้าๆ
+                  </p>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <h2>Example.</h2>
+                  <v-img
+                    src="../assets/face_id_example.gif"
+                    max-height="200"
+                    max-width="500"
+                    contain
+                  ></v-img>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  กด
+                  <v-btn color="primary">
+                    <v-icon>mdi-video</v-icon>
+                  </v-btn>
+                  สำหรับเริ่มการอัดวีดีโอเเละกด
+                  <v-btn><v-icon>mdi-stop</v-icon></v-btn>
+                  สำหรับหยุดการอัดวีดีโอ
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  ใน Step 1 ท่านสามารถอัดวีดีโอใหม่ได้เรื่อยๆจนพึงพอใจเเละกด
+                  <v-btn color="primary">next step</v-btn> เพื่อไปขั้นถัดไปได้ทันที
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn @click="step2" color="primary">next step</v-btn>
+                  <v-btn @click="back" color="depress">back</v-btn>
+                </v-col>
+              </v-row>
+            </v-stepper-content>
+            <v-stepper-content step="2">
+              <v-alert v-if="is_begin_record_alert" type="info" border="left">
+                วีดีโอยังไม่ถูกบันทึกกรุณากด
+                <v-btn color="primary">
+                  <v-icon>mdi-video</v-icon>
+                </v-btn>
+                เพื่อเริ่มบันทึกวีดีโอ
+              </v-alert>
+              <v-alert v-if="is_alert" type="info" border="left">{{
+                alert_text
+              }}</v-alert>
               <v-row>
                 <v-col class="text-center">
                   <video id="camera" controls></video>
@@ -47,26 +121,42 @@
                     <v-icon>mdi-video</v-icon>
                   </v-btn>
                 </v-col>
-                <v-col
-                  ><v-btn @click="stopRecord"
-                    ><v-icon>mdi-stop</v-icon></v-btn
-                  ></v-col
-                >
+                <v-col>
+                  <v-btn @click="stopRecord"> <v-icon>mdi-stop</v-icon></v-btn>
+                </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn @click="step2" color="primary">next step</v-btn>
+                  <v-btn @click="step3" color="primary">next step</v-btn>
                   <v-btn @click="back" color="depress">back</v-btn>
                 </v-col>
               </v-row>
             </v-stepper-content>
-            <v-stepper-content step="2">
+            <v-stepper-content step="3">
+              <v-row>
+                <v-col>
+                  <h1>ข้อมูลชื่อและภาพหน้าบัตร</h1>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn @click="step4" color="primary">next step</v-btn>
+                  <v-btn @click="back" color="depress">back</v-btn>
+                </v-col>
+              </v-row>
+            </v-stepper-content>
+            <v-stepper-content step="4">
+              <v-row>
+                <v-col>
+                  <h1>ข้อมูลชื่อและภาพหน้าบัตร</h1>
+                </v-col>
+              </v-row>
               <v-row>
                 <v-col>
                   <v-text-field
                     v-model="name"
-                    label="Your name"
-                    hint="name"
+                    label="กรุณากรอกชื่อ"
+                    hint="Name"
                   ></v-text-field>
                 </v-col>
                 <v-col>
@@ -86,40 +176,32 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn @click="step3" color="primary"
+                  <v-btn @click="step5" color="primary"
                     >Send my informations</v-btn
                   >
                   <v-btn @click="back" color="depress">back</v-btn>
                 </v-col>
               </v-row>
             </v-stepper-content>
-            <v-stepper-content step="3" class="text-center">
+            <v-stepper-content step="5" class="text-center">
               <v-row>
-                <v-col>
-                  Please wait
-                </v-col>
+                <v-col> Please wait </v-col>
               </v-row>
               <v-row>
                 <v-col>
                   <v-progress-circular
-                  indeterminate
-                  color="primary"
-                ></v-progress-circular>
+                    indeterminate
+                    color="primary"
+                  ></v-progress-circular>
                 </v-col>
               </v-row>
               <v-row>
-                <v-col>
-                  While We're processing your informations.
-                </v-col>
+                <v-col> While We're processing your informations. </v-col>
               </v-row>
             </v-stepper-content>
-            <v-stepper-content step="4">
+            <v-stepper-content step="6">
               <!-- Waiting for process -->
               Finish
-            </v-stepper-content>
-            <v-stepper-content step="5">
-              <!-- Waiting for process -->
-              Actually Finish
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
@@ -143,6 +225,11 @@ export default {
 
       name: "",
       image_file: null,
+
+      is_begin_record_alert: false,
+
+      is_alert: false,
+      alert_text: "",
     };
   },
   mounted() {
@@ -155,24 +242,49 @@ export default {
       }
       return "";
     },
+    step0() {},
     step1() {
       this.step = 1;
-      this.cameraInit();
     },
     step2() {
       this.step = 2;
+
+      this.is_begin_record_alert = true;
+      this.cameraInit();
     },
     step3() {
       this.step = 3;
+    },
+    step4() {
+      this.step = 4;
+    },
+    step5() {
+      this.step = 5;
+    },
+    step6() {
+      this.step = 6;
     },
     back() {
       this.step--;
     },
     startRecord() {
+      this.is_begin_record_alert = false;
+
+      this.is_alert = true;
+      this.alert_text = "เริ่มบันทึกวีดีโอ";
+
       this.mediaRecorder.start();
     },
     stopRecord() {
+      this.is_alert = false;
+      this.alert_text = "";
+
       this.mediaRecorder.stop();
+
+      this.is_begin_record_alert = true;
+    },
+    i() {
+      return "";
     },
     cameraInit() {
       // Screen flickering can be improve by using canvas. I think
