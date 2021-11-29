@@ -89,7 +89,8 @@
               <v-row>
                 <v-col>
                   ใน Step 1 ท่านสามารถอัดวีดีโอใหม่ได้เรื่อยๆจนพึงพอใจเเละกด
-                  <v-btn color="primary">next step</v-btn> เพื่อไปขั้นถัดไปได้ทันที
+                  <v-btn color="primary">next step</v-btn>
+                  เพื่อไปขั้นถัดไปได้ทันที
                 </v-col>
               </v-row>
               <v-row>
@@ -107,7 +108,7 @@
                 </v-btn>
                 เพื่อเริ่มบันทึกวีดีโอ
               </v-alert>
-              <v-alert v-if="is_alert" type="info" border="left">{{
+              <v-alert v-if="is_alert" :type="alert_type" border="left">{{
                 alert_text
               }}</v-alert>
               <v-row>
@@ -230,6 +231,7 @@ export default {
 
       is_alert: false,
       alert_text: "",
+      alert_type: "info",
 
       is_loading: false,
     };
@@ -271,12 +273,14 @@ export default {
       this.is_begin_record_alert = false;
 
       this.is_alert = true;
+      this.alert_type = "info";
       this.alert_text = "เริ่มบันทึกวีดีโอ";
 
       this.mediaRecorder.start();
     },
     stopRecord() {
       this.is_alert = false;
+      this.alert_type = "";
       this.alert_text = "";
 
       this.mediaRecorder.stop();
@@ -324,6 +328,10 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+
+          this.is_alert = true;
+          this.alert_type = "error";
+          this.alert_text = "Camera Permission denied.";
         });
     },
     sendData() {
