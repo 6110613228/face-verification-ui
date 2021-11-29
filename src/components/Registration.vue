@@ -287,9 +287,6 @@ export default {
 
       this.is_begin_record_alert = true;
     },
-    i() {
-      return "";
-    },
     cameraInit() {
       // Screen flickering can be improve by using canvas. I think
       navigator.mediaDevices
