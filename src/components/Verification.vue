@@ -81,7 +81,8 @@ export default {
           this.interval = setInterval(this.webSocketSendImage, 1000);
         } else {
           // Alert
-          this.alert_text = "WebSocket is on closed state. You can't send images.";
+          this.alert_text =
+            "WebSocket is on closed state. You can't send images.";
           this.alert_type = "error";
           this.is_alert = true;
         }
@@ -205,5 +206,10 @@ export default {
 <style>
 #camera {
   max-width: 70%;
+  /*Mirror code starts*/
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+  -moz-transform: rotateY(180deg); /* Firefox */
+  /*Mirror code ends*/
 }
 </style>
