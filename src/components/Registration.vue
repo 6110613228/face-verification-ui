@@ -57,7 +57,7 @@
             <v-stepper-content step="1">
               <v-row>
                 <v-col>
-                  <h1>Video หน้าพร้อมบัตร</h1>
+                  <h1>ข้อมูลชุดที่ 1 : Video หน้าพร้อมบัตร</h1>
                   <p>
                     ถ่ายวีดีโอหน้าพร้อมบัตรตาม Mask ที่กำหนด
                     โดยหันหน้าไปทางซ้ายช้าๆเเละทางขวาช้าๆ
@@ -230,6 +230,8 @@ export default {
 
       is_alert: false,
       alert_text: "",
+
+      is_loading: false,
     };
   },
   mounted() {
@@ -248,8 +250,6 @@ export default {
     },
     step2() {
       this.step = 2;
-
-      this.is_begin_record_alert = true;
       this.cameraInit();
     },
     step3() {
@@ -297,6 +297,8 @@ export default {
           this.stream = stream;
           this.camera.srcObject = stream;
           this.camera.play();
+
+          this.is_begin_record_alert = true;
 
           this.mediaRecorder = new MediaRecorder(stream);
 
