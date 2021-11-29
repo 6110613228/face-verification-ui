@@ -207,7 +207,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #camera {
   max-width: 70%;
   /*Mirror code starts*/
