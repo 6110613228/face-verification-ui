@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar color="yellow darken-1" app>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-app-bar-title>App</v-app-bar-title>
+      <v-app-bar-title>FaceCN</v-app-bar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
 
