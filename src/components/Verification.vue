@@ -129,7 +129,11 @@ export default {
         // Initial camera
         navigator.mediaDevices
           .getUserMedia({
-            video: { facingMode: "user" },
+            video: {
+              facingMode: "user",
+              width: { ideal: 4096 },
+              height: { ideal: 2160 },
+            },
             audio: false,
           })
           .then((stream) => {
