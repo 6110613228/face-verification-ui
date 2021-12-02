@@ -208,11 +208,12 @@
         </v-stepper>
       </v-col>
     </v-row>
+    <v-btn @click="sendData">send</v-btn>
   </v-container>
 </template>
 
 <script>
-import { axios } from "axios";
+import axios from "axios";
 
 export default {
   data() {
@@ -336,7 +337,23 @@ export default {
         });
     },
     sendData() {
-      axios.get();
+      const formData = new FormData();
+      formData.append("video", this.chunks);
+      formData.append("image", this.image_file);
+      formData.append("label", this.name);
+
+      axios
+        .post("http://127.0.0.1:8000/regis", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     init() {
       this.camera = document.getElementById("camera");
