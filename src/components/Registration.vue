@@ -338,12 +338,12 @@ export default {
     },
     sendData() {
       const formData = new FormData();
-      formData.append("video", this.chunks);
+      formData.append("video", new Blob(this.chunks, {'type' : 'video/mp4;'}));
       formData.append("image", this.image_file);
       formData.append("label", this.name);
 
       axios
-        .post("http://127.0.0.1:8000/regis", formData, {
+        .post("http://127.0.0.1:8000/register", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
