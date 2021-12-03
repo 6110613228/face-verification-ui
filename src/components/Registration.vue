@@ -66,7 +66,7 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <h2>Example.</h2>
+                  <h2 class="mb-2">Example.</h2>
                   <v-img
                     src="../assets/face_id_example.gif"
                     max-height="200"
