@@ -339,6 +339,8 @@ export default {
           let { width, height } = stream.getTracks()[0].getSettings();
           this.camera.srcObject = stream;
           this.camera.play();
+
+          // Set mask width, height
           this.mask.width = width;
           this.mask.height = height;
           this.draw();
@@ -428,6 +430,7 @@ export default {
   position: relative;
   top: 0;
   left: 0;
+  max-width: 100%;
 }
 
 #group {
