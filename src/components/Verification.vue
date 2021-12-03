@@ -209,7 +209,6 @@ export default {
 
 <style scoped>
 #camera {
-  max-width: 70%;
   /*Mirror code starts*/
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg); /* Safari and Chrome */
