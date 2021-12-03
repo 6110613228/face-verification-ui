@@ -141,6 +141,15 @@
               </v-row>
               <v-row>
                 <v-col>
+                  <p>ทำการกรอก</p>
+                  <ol>
+                    <li>ชื่อของคุณ</li>
+                    <li>อัพโหลดรูปภาพหน้าบัตร</li>
+                  </ol>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
                   <v-btn @click="step4" color="primary">next step</v-btn>
                   <v-btn @click="back" color="depress">back</v-btn>
                 </v-col>
@@ -201,14 +210,23 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="6">
-              <!-- Waiting for process -->
-              Finish
+              <v-row>
+                <v-col class="text-center">
+                  <h1>Finish</h1>
+                  <h3>We got all required informations</h3>
+                  <h1><v-icon color="primary" x-large>mdi-check-bold</v-icon></h1>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col class="text-center">
+                  <v-btn to="/verification" block x-large color="black" class="white--text">verification</v-btn>
+                </v-col>
+              </v-row>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
       </v-col>
     </v-row>
-    <v-btn @click="sendData">send</v-btn>
   </v-container>
 </template>
 
@@ -262,6 +280,7 @@ export default {
       this.step = 4;
     },
     step5() {
+      this.sendData();
       this.step = 5;
     },
     step6() {
@@ -349,7 +368,11 @@ export default {
           },
         })
         .then((response) => {
-          console.log(response.data);
+          if (response.data.result == true) {
+            this.step6();
+          } else {
+            this.back();
+          }
         })
         .catch((error) => {
           console.log(error);
