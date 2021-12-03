@@ -78,18 +78,18 @@
               <v-row>
                 <v-col>
                   กด
-                  <v-btn color="primary">
+                  <v-btn color="primary" class="mx-2">
                     <v-icon>mdi-video</v-icon>
                   </v-btn>
                   สำหรับเริ่มการอัดวีดีโอเเละกด
-                  <v-btn><v-icon>mdi-stop</v-icon></v-btn>
+                  <v-btn class="mx-2"><v-icon>mdi-stop</v-icon></v-btn>
                   สำหรับหยุดการอัดวีดีโอ
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
                   ใน Step 1 ท่านสามารถอัดวีดีโอใหม่ได้เรื่อยๆจนพึงพอใจเเละกด
-                  <v-btn color="primary">next step</v-btn>
+                  <v-btn color="primary" class="mx-2">next step</v-btn>
                   เพื่อไปขั้นถัดไปได้ทันที
                 </v-col>
               </v-row>
