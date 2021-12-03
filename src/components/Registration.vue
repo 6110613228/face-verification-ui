@@ -175,7 +175,7 @@
               <v-row>
                 <v-col>
                   <h1>
-                    ข้อมูลเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษาและภาพหน้าบัตร
+                    Step 2 Example: ข้อมูลเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษาและภาพหน้าบัตร
                   </h1>
                 </v-col>
               </v-row>
@@ -210,13 +210,13 @@
             <v-stepper-content step="4">
               <v-row>
                 <v-col>
-                  <h1>ข้อมูลเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษาและภาพหน้าบัตร</h1>
+                  <h1>Step 2: ข้อมูลเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษาและภาพหน้าบัตร</h1>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
                   <v-text-field
-                    v-model="name"
+                    v-model="label"
                     label="กรุณากรอกเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษา"
                   ></v-text-field>
                 </v-col>
@@ -308,7 +308,7 @@ export default {
 
       mask: null,
 
-      name: "",
+      label: "",
       image_file: null,
 
       is_begin_record_alert: false,
@@ -444,7 +444,7 @@ export default {
       const formData = new FormData();
       formData.append("video", new Blob(this.chunks, { type: "video/avi;" }));
       formData.append("image", this.image_file);
-      formData.append("label", this.name);
+      formData.append("label", this.label);
 
       axios
         .post("http://127.0.0.1:8000/register", formData, {
