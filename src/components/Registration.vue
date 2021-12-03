@@ -357,7 +357,7 @@ export default {
     },
     sendData() {
       const formData = new FormData();
-      formData.append("video", new Blob(this.chunks, { type: "video/mp4;" }));
+      formData.append("video", new Blob(this.chunks, {'type' : 'video/avi;'}));
       formData.append("image", this.image_file);
       formData.append("label", this.name);
 
