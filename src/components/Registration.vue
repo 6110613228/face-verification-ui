@@ -385,4 +385,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#camera {
+  max-width: 100%;
+}
+</style>
