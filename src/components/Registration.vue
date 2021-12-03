@@ -36,15 +36,22 @@
               <!-- Information -->
               <v-row>
                 <v-col>
-                  <p>
+                  <h1>
                     Face Registration:
                     ลงทะเบียนข้อมูลใบหน้าเพื่อให้ระบบของเราทราบว่าคุณคือใคร
                     โดยจะเก็บข้อมูลทั้งหมดสามอย่าง
-                  </p>
+                  </h1>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <h2>สิ่งที่จะเก็บ</h2>
                   <ol>
                     <li>วีดีโอหน้าพร้อมบัตร</li>
-                    <li>ชื่อของคุณ</li>
-                    <li>ภาพถ่ายหน้าบัตร</li>
+                    <li>ข้อมูลเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษา</li>
+                    <li>
+                      ภาพถ่ายหน้าบัตรประจำตัวประชาชนหรือบัตรประจำตัวนักศึกษา
+                    </li>
                   </ol>
                 </v-col>
               </v-row>
@@ -57,22 +64,11 @@
             <v-stepper-content step="1">
               <v-row>
                 <v-col>
-                  <h1>ข้อมูลชุดที่ 1 : Video หน้าพร้อมบัตร</h1>
+                  <h1>Step 1 Example: Video หน้าพร้อมบัตร</h1>
                   <p>
                     ถ่ายวีดีโอหน้าพร้อมบัตรตาม Mask ที่กำหนด
                     โดยหันหน้าไปทางซ้ายช้าๆเเละทางขวาช้าๆ
                   </p>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <h2 class="mb-2">Example.</h2>
-                  <v-img
-                    src="../assets/face_id_example.gif"
-                    max-height="200"
-                    max-width="500"
-                    contain
-                  ></v-img>
                 </v-col>
               </v-row>
               <v-row>
@@ -97,10 +93,25 @@
                       >
                       สำหรับหยุดการอัดวีดีโอ
                     </li>
-                    <li>ใน Step 1 ท่านสามารถอัดวีดีโอใหม่ได้เรื่อยๆจนพึงพอใจเเละกดปุ่ม
-                  <v-btn color="primary" class="mx-2" small>next step</v-btn>
-                  เพื่อไปขั้นถัดไป</li>
+                    <li>
+                      ใน Step 1
+                      ท่านสามารถอัดวีดีโอใหม่ได้เรื่อยๆจนพึงพอใจเเละกดปุ่ม
+                      <v-btn color="primary" class="mx-2" small
+                        >next step</v-btn
+                      >
+                      เพื่อไปขั้นถัดไป
+                    </li>
                   </ol>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <h2 class="mb-2">Example.</h2>
+                  <v-img
+                    src="../assets/face_id_example.gif"
+                    max-width="500"
+                    contain
+                  ></v-img>
                 </v-col>
               </v-row>
               <v-row>
@@ -113,8 +124,8 @@
             <v-stepper-content step="2">
               <v-alert v-if="is_begin_record_alert" type="info" border="left">
                 วีดีโอยังไม่ถูกบันทึกกรุณากด
-                <v-btn color="error">
-                  <v-icon>mdi-video</v-icon>
+                <v-btn color="error" class="mx-2" small>
+                  <v-icon small>mdi-video</v-icon>
                 </v-btn>
                 เพื่อเริ่มบันทึกวีดีโอ
               </v-alert>
@@ -122,6 +133,11 @@
                 alert_text
               }}</v-alert>
               <v-row>
+                <v-col>
+                  <h1>Step 1: Video หน้าพร้อมบัตร</h1>
+                </v-col>
+              </v-row>
+              <v-row no-gutters>
                 <v-col class="text-center">
                   <div id="group">
                     <video id="videoPlay"></video>
@@ -134,7 +150,7 @@
                   ></video>
                 </v-col>
               </v-row>
-              <v-row>
+              <v-row no-gutters>
                 <v-col class="text-center">
                   <v-btn
                     v-if="is_begin_record_alert"
@@ -158,21 +174,35 @@
             <v-stepper-content step="3">
               <v-row>
                 <v-col>
-                  <h1>ข้อมูลชื่อและภาพหน้าบัตร</h1>
+                  <h1>
+                    ข้อมูลเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษาและภาพหน้าบัตร
+                  </h1>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <p>ทำการกรอก</p>
+                  <h2>ทำการกรอก</h2>
                   <ol>
-                    <li>ชื่อของคุณ</li>
-                    <li>อัพโหลดรูปภาพหน้าบัตร</li>
+                    <li>เลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษา</li>
+                    <li>
+                      อัพโหลดรูปภาพหน้าบัตรประจำตัวประชาชนหรือบัตรนักศึกษา
+                    </li>
                   </ol>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn @click="step4" color="primary">next step</v-btn>
+                  <h2>Example.</h2>
+                  <v-img
+                    src="../assets/card_example.jpg"
+                    max-width="500"
+                    contain
+                  ></v-img>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn @click="step4" color="primary">to step 2</v-btn>
                   <v-btn @click="back" color="depress">back</v-btn>
                 </v-col>
               </v-row>
@@ -180,30 +210,30 @@
             <v-stepper-content step="4">
               <v-row>
                 <v-col>
-                  <h1>ข้อมูลชื่อและภาพหน้าบัตร</h1>
+                  <h1>ข้อมูลเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษาและภาพหน้าบัตร</h1>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
                   <v-text-field
                     v-model="name"
-                    label="กรุณากรอกชื่อ"
-                    hint="Name"
+                    label="กรุณากรอกเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษา"
                   ></v-text-field>
                 </v-col>
                 <v-col>
                   <v-file-input
                     v-model="image_file"
                     label="Upload your image"
-                    placeholder="Select your files"
+                    placeholder="Select your file"
                     filled
                     accept="image/*"
+                    prepend-icon="mdi-image"
                   ></v-file-input>
                 </v-col>
               </v-row>
               <v-row no-gutters>
                 <v-col>
-                  <v-img :src="fileToUrl()" max-height="500" contain></v-img>
+                  <v-img :src="fileToUrl()" max-height="400" contain></v-img>
                 </v-col>
               </v-row>
               <v-row>
