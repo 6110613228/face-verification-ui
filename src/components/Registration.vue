@@ -114,9 +114,14 @@
               <v-row>
                 <v-col class="text-center">
                   <div id="group">
-                    <video id="camera"></video>
+                    <video id="videoPlay"></video>
                     <canvas id="myCanvas"></canvas>
                   </div>
+                  <video
+                    id="videoReplay"
+                    style="display: None"
+                    controls
+                  ></video>
                 </v-col>
               </v-row>
               <v-row>
@@ -251,7 +256,9 @@ export default {
       step: 0,
 
       stream: null,
-      camera: null,
+      group: null,
+      videoPlay: null,
+      videoReplay: null,
       mediaRecorder: null,
       chunks: [],
 
@@ -268,9 +275,6 @@ export default {
 
       is_loading: false,
     };
-  },
-  mounted() {
-    this.init();
   },
   methods: {
     fileToUrl() {
@@ -337,8 +341,9 @@ export default {
         .then((stream) => {
           this.stream = stream;
           let { width, height } = stream.getTracks()[0].getSettings();
-          this.camera.srcObject = stream;
-          this.camera.play();
+
+          this.videoPlay.srcObject = stream;
+          this.videoPlay.play();
 
           // Set mask width, height
           this.mask.width = width;
@@ -352,17 +357,18 @@ export default {
           this.mediaRecorder.onstart = () => {
             console.log("start");
 
-            this.camera.srcObject = stream;
-            this.camera.play();
+            this.group.style.display = "inline-block";
+            this.videoReplay.style.display = "None";
           };
 
           this.mediaRecorder.onstop = () => {
             console.log("Stop");
 
-            this.camera.srcObject = null;
+            this.group.style.display = "None";
+            this.videoReplay.style.display = "inline-block";
 
             var blob = new Blob(this.chunks, { type: "video/mp4" });
-            this.camera.src = URL.createObjectURL(blob);
+            this.videoReplay.src = URL.createObjectURL(blob);
           };
 
           this.mediaRecorder.ondataavailable = (e) => {
@@ -374,7 +380,7 @@ export default {
 
           this.is_alert = true;
           this.alert_type = "error";
-          this.alert_text = "Camera Permission denied.";
+          this.alert_text = error.message;
         });
     },
     draw() {
@@ -414,28 +420,43 @@ export default {
         });
     },
     init() {
-      this.camera = document.getElementById("camera");
+      this.group = document.getElementById("group");
+      this.videoPlay = document.getElementById("videoPlay");
+      this.videoReplay = document.getElementById("videoReplay");
     },
+  },
+  mounted() {
+    this.init();
   },
 };
 </script>
 
 <style>
-#camera {
-  max-width: 100%;
+#videoPlay {
+  max-width: 80%;
   position: absolute;
+
+  /*Mirror code starts*/
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+  -moz-transform: rotateY(180deg); /* Firefox */
+  /*Mirror code ends*/
 }
 
 #myCanvas {
   position: relative;
   top: 0;
   left: 0;
-  max-width: 100%;
+  max-width: 80%;
 }
 
 #group {
   position: relative;
   top: 0;
   left: 0;
+}
+
+#videoReplay {
+  max-width: 80%;
 }
 </style>
