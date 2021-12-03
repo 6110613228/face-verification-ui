@@ -113,7 +113,10 @@
               }}</v-alert>
               <v-row>
                 <v-col class="text-center">
-                  <video id="camera" controls></video>
+                  <div id="group">
+                    <video id="camera"></video>
+                    <canvas id="myCanvas"></canvas>
+                  </div>
                 </v-col>
               </v-row>
               <v-row>
@@ -214,12 +217,21 @@
                 <v-col class="text-center">
                   <h1>Finish</h1>
                   <h3>We got all required informations</h3>
-                  <h1><v-icon color="primary" x-large>mdi-check-bold</v-icon></h1>
+                  <h1>
+                    <v-icon color="primary" x-large>mdi-check-bold</v-icon>
+                  </h1>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col class="text-center">
-                  <v-btn to="/verification" block x-large color="black" class="white--text">verification</v-btn>
+                  <v-btn
+                    to="/verification"
+                    block
+                    x-large
+                    color="black"
+                    class="white--text"
+                    >verification</v-btn
+                  >
                 </v-col>
               </v-row>
             </v-stepper-content>
@@ -242,6 +254,8 @@ export default {
       camera: null,
       mediaRecorder: null,
       chunks: [],
+
+      mask: null,
 
       name: "",
       image_file: null,
@@ -308,6 +322,8 @@ export default {
       this.is_begin_record_alert = true;
     },
     cameraInit() {
+      this.mask = document.getElementById("myCanvas");
+
       // Screen flickering can be improve by using canvas. I think
       navigator.mediaDevices
         .getUserMedia({
@@ -320,8 +336,12 @@ export default {
         })
         .then((stream) => {
           this.stream = stream;
+          let { width, height } = stream.getTracks()[0].getSettings();
           this.camera.srcObject = stream;
           this.camera.play();
+          this.mask.width = width;
+          this.mask.height = height;
+          this.draw();
 
           this.is_begin_record_alert = true;
 
@@ -355,9 +375,22 @@ export default {
           this.alert_text = "Camera Permission denied.";
         });
     },
+    draw() {
+      var ctx = this.mask.getContext("2d");
+
+      let path1 = new Path2D();
+      path1.rect(70, 150, 780, 520);
+      ctx.stroke(path1);
+      let path2 = new Path2D();
+      path2.ellipse(710, 280, 38, 43, 0, 0, 2 * Math.PI);
+      ctx.stroke(path2);
+      let path3 = new Path2D();
+      path3.ellipse(1300, 450, 230, 285, 0, 0, 2 * Math.PI);
+      ctx.stroke(path3);
+    },
     sendData() {
       const formData = new FormData();
-      formData.append("video", new Blob(this.chunks, {'type' : 'video/avi;'}));
+      formData.append("video", new Blob(this.chunks, { type: "video/avi;" }));
       formData.append("image", this.image_file);
       formData.append("label", this.name);
 
@@ -388,5 +421,18 @@ export default {
 <style>
 #camera {
   max-width: 100%;
+  position: absolute;
+}
+
+#myCanvas {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+#group {
+  position: relative;
+  top: 0;
+  left: 0;
 }
 </style>
