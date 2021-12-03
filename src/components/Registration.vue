@@ -77,25 +77,35 @@
               </v-row>
               <v-row>
                 <v-col>
-                  กด
-                  <v-btn color="primary" class="mx-2">
-                    <v-icon>mdi-video</v-icon>
-                  </v-btn>
-                  สำหรับเริ่มการอัดวีดีโอเเละกด
-                  <v-btn class="mx-2"><v-icon>mdi-stop</v-icon></v-btn>
-                  สำหรับหยุดการอัดวีดีโอ
+                  <h2>วิธีการใช้งาน</h2>
+                  <ol>
+                    <li>
+                      กดปุ่ม
+                      <v-btn class="mx-2" color="primary" small
+                        >to step 1</v-btn
+                      >
+                      เพื่อไปยัง step 1
+                    </li>
+                    <li>
+                      ใน Step 1 ท่านสามารถ กดปุ่ม
+                      <v-btn color="error" class="mx-2" small>
+                        <v-icon small>mdi-video</v-icon>
+                      </v-btn>
+                      สำหรับเริ่มการอัดวีดีโอเเละกดปุ่ม
+                      <v-btn class="mx-2" color="depress" small
+                        ><v-icon small>mdi-stop</v-icon></v-btn
+                      >
+                      สำหรับหยุดการอัดวีดีโอ
+                    </li>
+                    <li>ใน Step 1 ท่านสามารถอัดวีดีโอใหม่ได้เรื่อยๆจนพึงพอใจเเละกดปุ่ม
+                  <v-btn color="primary" class="mx-2" small>next step</v-btn>
+                  เพื่อไปขั้นถัดไป</li>
+                  </ol>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  ใน Step 1 ท่านสามารถอัดวีดีโอใหม่ได้เรื่อยๆจนพึงพอใจเเละกด
-                  <v-btn color="primary" class="mx-2">next step</v-btn>
-                  เพื่อไปขั้นถัดไปได้ทันที
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-btn @click="step2" color="primary">next step</v-btn>
+                  <v-btn @click="step2" color="primary">to step 1</v-btn>
                   <v-btn @click="back" color="depress">back</v-btn>
                 </v-col>
               </v-row>
@@ -103,7 +113,7 @@
             <v-stepper-content step="2">
               <v-alert v-if="is_begin_record_alert" type="info" border="left">
                 วีดีโอยังไม่ถูกบันทึกกรุณากด
-                <v-btn color="primary">
+                <v-btn color="error">
                   <v-icon>mdi-video</v-icon>
                 </v-btn>
                 เพื่อเริ่มบันทึกวีดีโอ
@@ -125,13 +135,17 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col class="text-right">
-                  <v-btn @click="startRecord" color="primary">
+                <v-col class="text-center">
+                  <v-btn
+                    v-if="is_begin_record_alert"
+                    @click="startRecord"
+                    color="error"
+                  >
                     <v-icon>mdi-video</v-icon>
                   </v-btn>
-                </v-col>
-                <v-col>
-                  <v-btn @click="stopRecord"> <v-icon>mdi-stop</v-icon></v-btn>
+                  <v-btn v-else @click="stopRecord">
+                    <v-icon>mdi-stop</v-icon></v-btn
+                  >
                 </v-col>
               </v-row>
               <v-row>
@@ -431,7 +445,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #videoPlay {
   max-width: 80%;
   position: absolute;
@@ -458,5 +472,9 @@ export default {
 
 #videoReplay {
   max-width: 80%;
+}
+
+li {
+  margin-bottom: 4px;
 }
 </style>
