@@ -78,7 +78,7 @@ export default {
         // Sending image while there is mediaStream (Happy)
         if (this.webSocket.readyState == this.webSocket.OPEN) {
           this.is_sending = true;
-          this.interval = setInterval(this.webSocketSendImage, 1000);
+          this.interval = setInterval(this.webSocketSendImage, 500);
         } else {
           // Alert
           this.alert_text =
@@ -131,8 +131,8 @@ export default {
           .getUserMedia({
             video: {
               facingMode: "user",
-              width: { ideal: 4096 },
-              height: { ideal: 2160 },
+              width: { ideal: 1920 },
+              height: { ideal: 1080 },
             },
             audio: false,
           })
@@ -156,7 +156,7 @@ export default {
       }
     },
     webSocketInit() {
-      this.webSocket = new WebSocket("wss://d47c-171-7-38-133.ngrok.io/ws");
+      this.webSocket = new WebSocket("wss://6a9c-171-7-38-133.ngrok.io/ws");
 
       this.webSocket.onopen = () => {
         console.log("Connection opened.");
@@ -184,6 +184,8 @@ export default {
           event.reason == "" ? "WebSocket connection is closed." : event.reason;
         this.alert_type = "info";
         this.is_alert = true;
+
+        this.toggleSendImage();
       };
     },
   },
