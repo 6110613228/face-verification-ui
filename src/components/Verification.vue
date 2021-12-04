@@ -151,7 +151,7 @@ export default {
       }
     },
     webSocketInit() {
-      this.webSocket = new WebSocket("wss://6a9c-171-7-38-133.ngrok.io/ws");
+      this.webSocket = new WebSocket("ws://localhost:8000/ws");
 
       this.webSocket.onopen = () => {
         console.log("Connection opened.");
