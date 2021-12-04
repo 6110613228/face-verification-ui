@@ -209,6 +209,9 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="4">
+              <v-alert v-if="is_fail_result" type="error" border="left">{{
+                response_message
+              }}</v-alert>
               <v-row>
                 <v-col>
                   <h1>
@@ -250,9 +253,6 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="5">
-              <v-alert v-if="is_fail_result" type="error" border="left">{{
-                response_message
-              }}</v-alert>
               <v-row>
                 <v-col class="text-center"> Please wait </v-col>
               </v-row>
@@ -352,8 +352,8 @@ export default {
       this.step = 4;
     },
     step5() {
-      this.sendData();
       this.step = 5;
+      this.sendData();
     },
     step6() {
       this.step = 6;
@@ -491,6 +491,7 @@ export default {
             this.is_loading = false;
           });
       } else {
+        this.back();
         this.is_fail_result = true;
         this.response_message = "You didn't complete all the required form";
         this.is_loading = false;
