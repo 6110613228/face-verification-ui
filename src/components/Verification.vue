@@ -101,11 +101,6 @@ export default {
         this.is_sending = false;
         clearInterval(this.interval);
         this.interval = null;
-
-        // Alert
-        this.alert_text = "Something wrong please refresh page and try again!";
-        this.alert_type = "error";
-        this.is_alert = true;
       } else {
         // Stop sendding image
         this.is_sending = false;
