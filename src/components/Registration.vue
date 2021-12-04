@@ -175,7 +175,8 @@
               <v-row>
                 <v-col>
                   <h1>
-                    Step 2 Example: ข้อมูลเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษาและภาพหน้าบัตร
+                    Step 2 Example:
+                    ข้อมูลเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษาและภาพหน้าบัตร
                   </h1>
                 </v-col>
               </v-row>
@@ -210,7 +211,10 @@
             <v-stepper-content step="4">
               <v-row>
                 <v-col>
-                  <h1>Step 2: ข้อมูลเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษาและภาพหน้าบัตร</h1>
+                  <h1>
+                    Step 2:
+                    ข้อมูลเลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษาและภาพหน้าบัตร
+                  </h1>
                 </v-col>
               </v-row>
               <v-row>
@@ -246,6 +250,9 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="5" class="text-center">
+              <v-alert v-if="is_fail_result" type="error" border="left">{{
+                response_message
+              }}</v-alert>
               <v-row>
                 <v-col> Please wait </v-col>
               </v-row>
@@ -317,7 +324,8 @@ export default {
       alert_text: "",
       alert_type: "info",
 
-      is_loading: false,
+      is_fail_result: false,
+      response_message: "",
     };
   },
   methods: {
@@ -458,9 +466,15 @@ export default {
           } else {
             this.back();
           }
+          this.is_fail_result = !response.data.result;
+          this.response_message = response.data.message;
         })
         .catch((error) => {
           console.log(error);
+
+          this.back();
+          this.is_fail_result = true;
+          this.response_message = error.message;
         });
     },
     init() {
