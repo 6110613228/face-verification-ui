@@ -78,7 +78,7 @@ export default {
         // Sending image while there is mediaStream (Happy)
         if (this.webSocket.readyState == this.webSocket.OPEN) {
           this.is_sending = true;
-          this.interval = setInterval(this.webSocketSendImage, 500);
+          this.interval = setInterval(this.webSocketSendImage, 1000);
         } else {
           // Alert
           this.alert_text =
@@ -211,7 +211,7 @@ export default {
 
 <style scoped>
 #camera {
-  max-width: 100%;
+  max-width: 80%;
   /*Mirror code starts*/
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg); /* Safari and Chrome */
