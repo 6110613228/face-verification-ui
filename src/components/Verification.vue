@@ -45,7 +45,7 @@ export default {
       is_showtext: false,
       count_face: 0,
       is_same_person: "",
-      found_face_bb: null,
+      found_faces: null,
 
       is_alert: false,
       alert_type: "success",
@@ -172,7 +172,7 @@ export default {
         // Assign variables
         this.count_face = web_socket_response.count_face;
         this.is_same_person = web_socket_response.is_same_person;
-        this.found_face_bb = web_socket_response.found_face_bb;
+        this.found_faces = web_socket_response.found_faces;
         console.log(web_socket_response);
       };
 
