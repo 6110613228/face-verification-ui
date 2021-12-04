@@ -249,15 +249,15 @@
                 </v-col>
               </v-row>
             </v-stepper-content>
-            <v-stepper-content step="5" class="text-center">
+            <v-stepper-content step="5">
               <v-alert v-if="is_fail_result" type="error" border="left">{{
                 response_message
               }}</v-alert>
               <v-row>
-                <v-col> Please wait </v-col>
+                <v-col class="text-center"> Please wait </v-col>
               </v-row>
               <v-row>
-                <v-col>
+                <v-col class="text-center">
                   <v-progress-circular
                     indeterminate
                     color="primary"
@@ -265,7 +265,7 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col> While We're processing your informations. </v-col>
+                <v-col class="text-center"> While We're processing your informations. </v-col>
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="6">
@@ -492,7 +492,7 @@ export default {
           });
       } else {
         this.is_fail_result = true;
-        this.response_message = "You didn't complete all of the required form.";
+        this.response_message = "You didn't complete all the required form";
         this.is_loading = false;
       }
     },
