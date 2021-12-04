@@ -242,7 +242,7 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn @click="step5" color="primary"
+                  <v-btn @click="step5" color="primary" :loading="is_loading"
                     >Send my informations</v-btn
                   >
                   <v-btn @click="back" color="depress">back</v-btn>
@@ -326,6 +326,8 @@ export default {
 
       is_fail_result: false,
       response_message: "",
+
+      is_loading: false,
     };
   },
   methods: {
@@ -449,33 +451,50 @@ export default {
       ctx.stroke(path3);
     },
     sendData() {
-      const formData = new FormData();
-      formData.append("video", new Blob(this.chunks, { type: "video/avi;" }));
-      formData.append("image", this.image_file);
-      formData.append("label", this.label);
+      this.is_loading = true;
+      this.is_fail_result = false;
 
-      axios
-        .post("http://127.0.0.1:8000/register", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          if (response.data.result == true) {
-            this.step6();
-          } else {
+      if (
+        this.image_file != null &&
+        this.label != "" &&
+        this.chunks.length != 0
+      ) {
+        const formData = new FormData();
+        formData.append("video", new Blob(this.chunks, { type: "video/avi;" }));
+        formData.append("image", this.image_file);
+        formData.append("label", this.label);
+
+        axios
+          .post("http://127.0.0.1:8000/register", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response) => {
+            if (response.data.result == true) {
+              this.step6();
+            } else {
+              this.back();
+            }
+
+            this.is_fail_result = !response.data.result;
+            this.response_message = response.data.message;
+            this.is_loading = false;
+          })
+          .catch((error) => {
+            console.log(error);
+
             this.back();
-          }
-          this.is_fail_result = !response.data.result;
-          this.response_message = response.data.message;
-        })
-        .catch((error) => {
-          console.log(error);
 
-          this.back();
-          this.is_fail_result = true;
-          this.response_message = error.message;
-        });
+            this.is_fail_result = true;
+            this.response_message = error.message;
+            this.is_loading = false;
+          });
+      } else {
+        this.is_fail_result = true;
+        this.response_message = "You didn't complete all of the required form.";
+        this.is_loading = false;
+      }
     },
     init() {
       this.group = document.getElementById("group");
