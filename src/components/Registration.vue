@@ -411,6 +411,7 @@ export default {
           this.mediaRecorder.onstart = () => {
             console.log("start");
 
+            this.chunks = [];
             this.group.style.display = "inline-block";
             this.videoReplay.style.display = "None";
           };
