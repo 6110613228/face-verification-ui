@@ -184,16 +184,13 @@ export default {
       this.ctx.strokeStyle = "green";
       this.ctx.stroke();
     },
+
     rect(x1, y1, w, h, text) {
       this.ctx.beginPath();
-      this.ctx.rect(x1, y1, w, h);
+      this.ctx.rect( (this.mask.width * 2) - (this.mask.width + x1), y1, w, h);
       this.ctx.font = "30px Arial";
       this.ctx.fillStyle = "green";
-      this.ctx.fillText(
-        text,
-        x1 + x1 * 0.295,
-        y1 - x1 * 0.05
-      );
+      this.ctx.fillText(text, (this.mask.width * 2) - (this.mask.width + x1) + (x1 * 0.225),  y1 - (x1 * 0.025));
       this.ctx.lineWidth = 5;
       this.ctx.strokeStyle = "green";
       this.ctx.stroke();
@@ -223,16 +220,15 @@ export default {
         this.found_faces = web_socket_response.found_faces;
 
         if (this.count_face >= 1) {
-          for (let i = 0; i <= this.count_face; i++) {
-            var t1 = this.found_faces[0]["box"][0];
-            var t2 = this.found_faces[0]["box"][1];
-            var t3 = this.found_faces[0]["box"][2];
-            var t4 = this.found_faces[0]["box"][3];
-            var text = this.found_faces[1]["label"];
-            this.rect(t1, t2, t3, t4 , text);
-          }
+          this.found_faces.forEach((x) => {
+            var t1 = x["box"][0];
+            var t2 = x["box"][1];
+            var t3 = x["box"][2];
+            var t4 = x["box"][3];
+            var text = x["label"];
+            this.rect(t1, t2, t3, t4, text);
+          });
         }
-
 
         console.log(web_socket_response);
       };

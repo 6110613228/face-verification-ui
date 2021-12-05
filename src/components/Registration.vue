@@ -456,14 +456,11 @@ export default {
       ctx.stroke(path1);
 
       let path2 = new Path2D();
-      path2.ellipse(
-        this.mask.width * 0.175,
-        this.mask.height * 0.3,
-        this.mask.width * 0.025,
-        this.mask.height * 0.05,
-        0,
-        0,
-        2 * Math.PI
+      path2.rect(
+        this.mask.width * 0.125,
+        this.mask.height * 0.25,
+        this.mask.width * 0.095,
+        this.mask.height * 0.235,
       );
       ctx.stroke(path2);
 
