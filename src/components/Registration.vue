@@ -331,7 +331,7 @@ export default {
 
       mask: null,
 
-      select_card: { text: "Student ID card", value: 0 },
+      select_card: 0,
       cards: [
         { text: "Student ID card", value: 0 },
         { text: "Student ID card(Horizontal)", value: 1 },
@@ -464,7 +464,7 @@ export default {
     draw() {
       let ctx = this.mask.getContext("2d");
       ctx.clearRect(0, 0, this.mask.width, this.mask.height);
-      if (this.select_card.value == 0) {
+      if (this.select_card == 0) {
         ctx = this.mask.getContext("2d");
 
         let path1 = new Path2D();
@@ -502,9 +502,9 @@ export default {
           2 * Math.PI
         );
         ctx.stroke(path3);
-      } else if (this.select_card.value == 1) {
+      } else if (this.select_card == 1) {
         console.log("selected = 1");
-      } else if (this.select_card.value == 2) {
+      } else if (this.select_card == 2) {
         console.log("selected = 2");
       } else {
         console.log("selected is invalid");
