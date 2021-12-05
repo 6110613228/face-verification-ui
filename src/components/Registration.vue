@@ -360,7 +360,6 @@ export default {
       }
       return "";
     },
-    step0() {},
     step1() {
       this.step = 1;
     },
@@ -525,7 +524,7 @@ export default {
         formData.append("label", this.label);
 
         axios
-          .post("http://127.0.0.1:8000/register", formData, {
+          .post("https://2d25-171-7-38-133.ngrok.io/register", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
