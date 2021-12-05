@@ -100,6 +100,8 @@ export default {
             // Stop sendding image
             this.is_sending = true;
             this.interval = setInterval(this.webSocketSendImage, 1000);
+
+            this.response_text_element.className = "orange--text";
           }
         } else {
           // Stop sendding image
@@ -108,6 +110,8 @@ export default {
           this.interval = null;
         }
       } else {
+        this.is_sending = false;
+
         // Alert
         this.alert_text =
           "WebSocket is on closed state. You can't send images.";
