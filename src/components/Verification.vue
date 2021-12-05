@@ -175,10 +175,14 @@ export default {
 
     rect(x1, y1, w, h, text) {
       this.ctx.beginPath();
-      this.ctx.rect( (this.mask.width * 2) - (this.mask.width + x1 + w), (this.mask.height * 2 ) - (this.mask.height + y1 + h), w, h);
+      this.ctx.rect(this.mask.width * 2 - (this.mask.width + x1 + w), y1, w, h);
       this.ctx.font = "30px Arial";
       this.ctx.fillStyle = "green";
-      this.ctx.fillText(text, (this.mask.width * 2) - (this.mask.width + x1 + w) + (x1 * 0.15),  (this.mask.height * 2 ) - (this.mask.height + y1 + h) - (x1 * 0.025));
+      this.ctx.fillText(
+        text,
+        ( this.mask.width * 2 ) - (this.mask.width + x1 + w) ,
+        y1 - 5
+      );
       this.ctx.lineWidth = 5;
       this.ctx.strokeStyle = "green";
       this.ctx.stroke();
