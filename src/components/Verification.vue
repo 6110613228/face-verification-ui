@@ -111,49 +111,6 @@ export default {
         this.alert_type = "error";
         this.is_alert = true;
       }
-
-      /*
-
-      if (!this.is_sending && this.stream != null) {
-        // Sending image while there is mediaStream (Happy)
-        if (this.webSocket.readyState == this.webSocket.OPEN) {
-          this.is_sending = true;
-          this.interval = setInterval(this.webSocketSendImage, 1000);
-        } else {
-          // Alert
-          this.alert_text =
-            "WebSocket is on closed state. You can't send images.";
-          this.alert_type = "error";
-          this.is_alert = true;
-        }
-      } else if (!this.is_sending && this.stream == null) {
-        // Try to send image while no mediaStream
-
-        // Alert
-        this.alert_text = "Can't send images now. No camera device found!";
-        this.alert_type = "info";
-        this.is_alert = true;
-      } else if (this.is_sending && this.stream == null) {
-        // Sending image while no mediaStream
-        // Something is very worng
-
-        // Stop sendding image
-        this.is_sending = false;
-        clearInterval(this.interval);
-        this.interval = null;
-
-        // Alert
-        this.alert_text = "Something wrong please refresh page and try again!";
-        this.alert_type = "error";
-        this.is_alert = true;
-      } else {
-        // Stop sendding image
-        this.is_sending = false;
-        clearInterval(this.interval);
-        this.interval = null;
-      } // End if
-      
-      */
     },
     webSocketSendImage() {
       this.canvas
@@ -175,8 +132,8 @@ export default {
           .getUserMedia({
             video: {
               facingMode: "user",
-              width: { ideal: 4096 },
-              height: { ideal: 2160 },
+              width: { ideal: 1920 },
+              height: { ideal: 1080 },
             },
             audio: false,
           })
