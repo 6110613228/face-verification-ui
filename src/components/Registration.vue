@@ -368,7 +368,7 @@ export default {
       this.cameraInit();
     },
     step3() {
-      if (this.group.style.display == "None") {
+      if (this.group.style.display == "inline-block") {
         this.stopRecord();
       }
       this.step = 3;
