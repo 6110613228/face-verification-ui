@@ -249,20 +249,26 @@ export default {
     messageFormatted() {
       if (this.count_same_face == 3) {
         this.toggleSendImage();
+        this.response_text.className = "green--text";
       }
 
-      if (this.count_face > 2) {
-        return "Found more than 2 faces";
-      } else if (this.count_face == 2) {
-        if (this.is_same_person) {
-          return "Same person";
+      if (this.count_not_same_face == 10) {
+        this.response_text.className = "red--text";
+      }
+      if (this.is_sending) {
+        if (this.count_face > 2) {
+          return "Found more than 2 faces";
+        } else if (this.count_face == 2) {
+          if (this.is_same_person) {
+            return "Same person";
+          } else {
+            return "Not same person";
+          }
+        } else if (this.count_face == 1) {
+          return "Found only 1 face";
         } else {
-          return "Not same person";
+          return "No face found";
         }
-      } else if (this.count_face == 1) {
-        return "Found only 1 face";
-      } else {
-        return "No face found";
       }
     },
   },
