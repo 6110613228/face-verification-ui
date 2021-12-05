@@ -142,6 +142,7 @@
                   ><v-select
                     v-model="select_card"
                     :items="cards"
+                    @change="draw(select_card.value)"
                     solo
                   ></v-select
                 ></v-col>
@@ -461,6 +462,8 @@ export default {
         });
     },
     draw(selected) {
+      let ctx = this.mask.getContext("2d");
+      ctx.clearRect(0, 0, this.mask.width, this.mask.height);
       if (selected == 0) {
         var ctx = this.mask.getContext("2d");
 
@@ -499,8 +502,12 @@ export default {
           2 * Math.PI
         );
         ctx.stroke(path3);
+      } else if (selected == 1) {
+        console.log("selected = 1");
+      } else if (selected == 2) {
+        console.log("selected = 2");
       } else {
-        console.log("Not = 0")
+        console.log("selected is invalid");
       }
     },
     sendData() {
