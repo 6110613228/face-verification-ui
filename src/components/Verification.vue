@@ -3,12 +3,15 @@
     <v-alert v-if="is_alert" :type="alert_type" border="left">{{
       alert_text
     }}</v-alert>
-    <v-row v-if="is_showtext">
+    <v-row>
       <v-col class="text-center">
-        <h1 id="response_text" class="orange--text">{{ messageFormatted }}</h1>
+        <h1 id="response_text_element" class="orange--text">
+          {{ response_text }}
+        </h1>
       </v-col>
     </v-row>
     <v-row no-gutters>
+      {{ count_not_same_face }} {{ count_same_face }}
       <v-col class="text-center">
         <div id="group">
           <video id="camera"></video>
@@ -53,8 +56,8 @@ export default {
       webSocket: null,
       interval: null,
 
-      is_showtext: false,
-      response_text: null,
+      response_text_element: null,
+      response_text: "",
       count_same_face: 0,
       count_not_same_face: 0,
 
@@ -80,9 +83,6 @@ export default {
         });
         // Set stream to null (No mediaStream)
         this.stream = null;
-
-        // Set show text to false
-        this.is_showtext = false;
 
         this.toggleSendImage();
       } else {
@@ -129,7 +129,9 @@ export default {
       this.canvas = document.createElement("canvas");
       this.mask = document.getElementById("myCanvas");
       this.ctx = this.mask.getContext("2d");
-      this.response_text = document.getElementById("response_text");
+      this.response_text_element = document.getElementById(
+        "response_text_element"
+      );
 
       if (this.stream === null) {
         // Initial camera
@@ -199,9 +201,6 @@ export default {
       };
 
       this.webSocket.onmessage = (event) => {
-        // Set showtext to true
-        this.is_showtext = true;
-
         // Parse JSON string to JSON object
         let web_socket_response = JSON.parse(event.data);
 
@@ -214,11 +213,28 @@ export default {
         this.is_same_person = web_socket_response.is_same_person;
         this.found_faces = web_socket_response.found_faces;
 
-        if (this.is_same_person) {
-          this.count_same_face += this.count_same_face + 1;
-        } else {
-          this.count_not_same_face += this.count_not_same_face + 1;
+        if (this.count_face == 2) {
+          if (this.is_same_person) {
+            this.count_same_face += 1;
+          } else {
+            this.count_not_same_face += 1;
+          }
         }
+
+        if (this.count_same_face == 3) {
+          this.toggleSendImage();
+          this.response_text_element.className =
+            "green--text light-green lighten-1";
+          this.response_text = "There are the same person";
+        }
+
+        if (this.count_not_same_face == 20) {
+          this.toggleSendImage();
+          this.response_text_element.className = "red--text red lighten-3";
+          this.response_text = "There are not the same person";
+        }
+
+        this.response_text = this.messageFormatted();
 
         if (this.count_face >= 1) {
           this.found_faces.forEach((x) => {
@@ -244,17 +260,7 @@ export default {
         this.is_alert = true;
       };
     },
-  },
-  computed: {
     messageFormatted() {
-      if (this.count_same_face == 3) {
-        this.toggleSendImage();
-        this.response_text.className = "green--text";
-      }
-
-      if (this.count_not_same_face == 10) {
-        this.response_text.className = "red--text";
-      }
       if (this.is_sending) {
         if (this.count_face > 2) {
           return "Found more than 2 faces";
@@ -269,6 +275,8 @@ export default {
         } else {
           return "No face found";
         }
+      } else {
+        return this.response_text;
       }
     },
   },
