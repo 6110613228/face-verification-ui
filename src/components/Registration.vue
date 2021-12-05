@@ -360,7 +360,6 @@ export default {
       }
       return "";
     },
-    step0() {},
     step1() {
       this.step = 1;
     },
