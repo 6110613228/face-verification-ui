@@ -444,13 +444,42 @@ export default {
       var ctx = this.mask.getContext("2d");
 
       let path1 = new Path2D();
-      path1.rect(70, 150, 780, 520);
+      path1.rect(
+        this.mask.width * 0.1,
+        this.mask.height * 0.2,
+        this.mask.width * 0.5,
+        this.mask.height * 0.5
+      );
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = "black";
+      ctx.stroke();
       ctx.stroke(path1);
+
       let path2 = new Path2D();
-      path2.ellipse(710, 280, 38, 43, 0, 0, 2 * Math.PI);
+      path2.ellipse(
+        this.mask.width * 0.175,
+        this.mask.height * 0.3,
+        this.mask.width * 0.025,
+        this.mask.height * 0.05,
+        0,
+        0,
+        2 * Math.PI
+      );
       ctx.stroke(path2);
+
       let path3 = new Path2D();
-      path3.ellipse(1300, 450, 230, 285, 0, 0, 2 * Math.PI);
+      path3.lineWidth = 5;
+      path3.strokeStyle = "green";
+
+      path3.ellipse(
+        this.mask.width * 0.77,
+        this.mask.height * 0.5,
+        this.mask.width * 0.125,
+        this.mask.height * 0.275,
+        0,
+        0,
+        2 * Math.PI
+      );
       ctx.stroke(path3);
     },
     sendData() {

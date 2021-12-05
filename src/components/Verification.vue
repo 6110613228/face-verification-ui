@@ -174,7 +174,28 @@ export default {
       this.ctx.beginPath();
       this.ctx.rect(this.x1, this.y1, this.w, this.h);
       this.ctx.font = "30px Arial";
-      this.ctx.fillText(this.text, this.x1 + this.x1 * 0.25, this.y1);
+      this.ctx.fillStyle = "green";
+      this.ctx.fillText(
+        this.text,
+        this.x1 + this.x1 * 0.275,
+        this.y1 - this.x1 * 0.05
+      );
+      this.ctx.lineWidth = 5;
+      this.ctx.strokeStyle = "green";
+      this.ctx.stroke();
+    },
+    rect(x1, y1, w, h, text) {
+      this.ctx.beginPath();
+      this.ctx.rect(x1, y1, w, h);
+      this.ctx.font = "30px Arial";
+      this.ctx.fillStyle = "green";
+      this.ctx.fillText(
+        text,
+        x1 + x1 * 0.295,
+        y1 - x1 * 0.05
+      );
+      this.ctx.lineWidth = 5;
+      this.ctx.strokeStyle = "green";
       this.ctx.stroke();
     },
 
@@ -192,27 +213,25 @@ export default {
         // Parse JSON string to JSON object
         let web_socket_response = JSON.parse(event.data);
 
+        if (this.found_faces != web_socket_response.found_faces) {
+          this.ctx.clearRect(0, 0, this.mask.width, this.mask.height);
+        }
+
         // Assign variables
         this.count_face = web_socket_response.count_face;
         this.is_same_person = web_socket_response.is_same_person;
         this.found_faces = web_socket_response.found_faces;
 
-        if (
-          this.found_faces[0]["box"][0] != this.x1 ||
-          this.found_faces[0]["box"][1] != this.y1 ||
-          this.found_faces[0]["box"][2] != this.w ||
-          this.found_faces[0]["box"][3] != this.h
-        ) {
-          this.ctx.clearRect(0, 0, this.mask.width, this.mask.height);
+        if (this.count_face >= 1) {
+          for (let i = 0; i <= this.count_face; i++) {
+            var t1 = this.found_faces[0]["box"][0];
+            var t2 = this.found_faces[0]["box"][1];
+            var t3 = this.found_faces[0]["box"][2];
+            var t4 = this.found_faces[0]["box"][3];
+            var text = this.found_faces[1]["label"];
+            this.rect(t1, t2, t3, t4 , text);
+          }
         }
-        this.x1 = this.found_faces[0]["box"][0];
-        this.y1 = this.found_faces[0]["box"][1];
-        this.w = this.found_faces[0]["box"][2];
-        this.h = this.found_faces[0]["box"][3];
-        this.text = this.found_faces[1]["label"];
-        console.log(this.text);
-
-        this.rec()
 
 
         console.log(web_socket_response);
