@@ -74,7 +74,6 @@ export default {
           // Stop tracks
           track.stop();
         });
-
         // Set stream to null (No mediaStream)
         this.stream = null;
 
@@ -87,6 +86,34 @@ export default {
       }
     },
     toggleSendImage() {
+      if (this.webSocket.readyState == this.webSocket.OPEN) {
+        if (this.stream != null) {
+          if (this.is_sending) {
+            // Stop sendding image
+            this.is_sending = false;
+            clearInterval(this.interval);
+            this.interval = null;
+          } else {
+            // Stop sendding image
+            this.is_sending = true;
+            this.interval = setInterval(this.webSocketSendImage, 1000);
+          }
+        } else {
+          // Stop sendding image
+          this.is_sending = false;
+          clearInterval(this.interval);
+          this.interval = null;
+        }
+      } else {
+        // Alert
+        this.alert_text =
+          "WebSocket is on closed state. You can't send images.";
+        this.alert_type = "error";
+        this.is_alert = true;
+      }
+
+      /*
+
       if (!this.is_sending && this.stream != null) {
         // Sending image while there is mediaStream (Happy)
         if (this.webSocket.readyState == this.webSocket.OPEN) {
@@ -125,6 +152,8 @@ export default {
         clearInterval(this.interval);
         this.interval = null;
       } // End if
+      
+      */
     },
     webSocketSendImage() {
       this.canvas
@@ -191,11 +220,7 @@ export default {
       this.ctx.rect(x1, y1, w, h);
       this.ctx.font = "30px Arial";
       this.ctx.fillStyle = "green";
-      this.ctx.fillText(
-        text,
-        x1 + x1 * 0.295,
-        y1 - x1 * 0.05
-      );
+      this.ctx.fillText(text, x1 + x1 * 0.295, y1 - x1 * 0.05);
       this.ctx.lineWidth = 5;
       this.ctx.strokeStyle = "green";
       this.ctx.stroke();
@@ -230,10 +255,9 @@ export default {
             var t3 = this.found_faces[0]["box"][2];
             var t4 = this.found_faces[0]["box"][3];
             var text = this.found_faces[1]["label"];
-            this.rect(t1, t2, t3, t4 , text);
+            this.rect(t1, t2, t3, t4, text);
           }
         }
-
 
         console.log(web_socket_response);
       };
