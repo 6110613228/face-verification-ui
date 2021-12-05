@@ -80,6 +80,8 @@ export default {
 
         // Set show text to false
         this.is_showtext = false;
+
+        this.toggleSendImage();
       } else {
         this.Init();
       }
@@ -198,7 +200,6 @@ export default {
       this.ctx.strokeStyle = "green";
       this.ctx.stroke();
     },
-
     webSocketInit() {
       this.webSocket = new WebSocket("ws://localhost:8000/ws");
 
