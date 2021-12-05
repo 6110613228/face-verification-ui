@@ -142,7 +142,7 @@
                   ><v-select
                     v-model="select_card"
                     :items="cards"
-                    @change="draw(select_card.value)"
+                    @change="draw()"
                     solo
                   ></v-select
                 ></v-col>
@@ -425,7 +425,7 @@ export default {
           // Set mask width, height
           this.mask.width = width;
           this.mask.height = height;
-          this.draw(this.select_card.value);
+          this.draw();
 
           this.is_begin_record_alert = true;
 
@@ -461,10 +461,10 @@ export default {
           this.alert_text = error.message;
         });
     },
-    draw(selected) {
+    draw() {
       let ctx = this.mask.getContext("2d");
       ctx.clearRect(0, 0, this.mask.width, this.mask.height);
-      if (selected == 0) {
+      if (this.select_card.value == 0) {
         ctx = this.mask.getContext("2d");
 
         let path1 = new Path2D();
@@ -502,9 +502,9 @@ export default {
           2 * Math.PI
         );
         ctx.stroke(path3);
-      } else if (selected == 1) {
+      } else if (this.select_card.value == 1) {
         console.log("selected = 1");
-      } else if (selected == 2) {
+      } else if (this.select_card.value == 2) {
         console.log("selected = 2");
       } else {
         console.log("selected is invalid");
