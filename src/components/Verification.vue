@@ -9,8 +9,11 @@
       </v-col>
     </v-row>
     <v-row no-gutters>
-      <v-col>
-        <video id="camera" class="d-flex mx-auto"></video>
+      <v-col class="text-center">
+        <div id="group">
+          <video id="camera"></video>
+          <canvas id="myCanvas"></canvas>
+        </div>
       </v-col>
     </v-row>
     <v-row>
@@ -37,6 +40,14 @@ export default {
       camera: null,
       canvas: null,
       stream: null,
+
+      mask: null,
+      ctx: null,
+      x1: null,
+      y1: null,
+      w: null,
+      h: null,
+      text: null,
 
       is_sending: false,
       webSocket: null,
@@ -124,6 +135,8 @@ export default {
     Init() {
       this.camera = document.getElementById("camera");
       this.canvas = document.createElement("canvas");
+      this.mask = document.getElementById("myCanvas");
+      this.ctx = this.mask.getContext("2d");
 
       if (this.stream === null) {
         // Initial camera
@@ -142,6 +155,8 @@ export default {
             this.canvas.width = width;
             this.canvas.height = height;
             this.camera.srcObject = stream;
+            this.mask.width = width;
+            this.mask.height = height;
             this.camera.play();
           })
           .catch((error) => {
@@ -155,8 +170,16 @@ export default {
           });
       }
     },
+    rec() {
+      this.ctx.beginPath();
+      this.ctx.rect(this.x1, this.y1, this.w, this.h);
+      this.ctx.font = "30px Arial";
+      this.ctx.fillText(this.text, this.x1 + this.x1 * 0.25, this.y1);
+      this.ctx.stroke();
+    },
+
     webSocketInit() {
-      this.webSocket = new WebSocket("wss://95d1-119-76-28-98.ngrok.io/ws");
+      this.webSocket = new WebSocket("ws://localhost:8000/ws");
 
       this.webSocket.onopen = () => {
         console.log("Connection opened.");
@@ -173,6 +196,25 @@ export default {
         this.count_face = web_socket_response.count_face;
         this.is_same_person = web_socket_response.is_same_person;
         this.found_faces = web_socket_response.found_faces;
+
+        if (
+          this.found_faces[0]["box"][0] != this.x1 ||
+          this.found_faces[0]["box"][1] != this.y1 ||
+          this.found_faces[0]["box"][2] != this.w ||
+          this.found_faces[0]["box"][3] != this.h
+        ) {
+          this.ctx.clearRect(0, 0, this.mask.width, this.mask.height);
+        }
+        this.x1 = this.found_faces[0]["box"][0];
+        this.y1 = this.found_faces[0]["box"][1];
+        this.w = this.found_faces[0]["box"][2];
+        this.h = this.found_faces[0]["box"][3];
+        this.text = this.found_faces[1]["label"];
+        console.log(this.text);
+
+        this.rec();
+
+
         console.log(web_socket_response);
       };
 
@@ -209,11 +251,24 @@ export default {
 
 <style scoped>
 #camera {
-  max-width: 100%;
+  max-width: 80%;
+  position: absolute;
   /*Mirror code starts*/
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg); /* Safari and Chrome */
   -moz-transform: rotateY(180deg); /* Firefox */
   /*Mirror code ends*/
+}
+#myCanvas {
+  position: relative;
+  top: 0;
+  left: 0;
+  max-width: 80%;
+}
+
+#group {
+  position: relative;
+  top: 0;
+  left: 0;
 }
 </style>
