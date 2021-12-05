@@ -465,7 +465,7 @@ export default {
       let ctx = this.mask.getContext("2d");
       ctx.clearRect(0, 0, this.mask.width, this.mask.height);
       if (selected == 0) {
-        var ctx = this.mask.getContext("2d");
+        ctx = this.mask.getContext("2d");
 
         let path1 = new Path2D();
         path1.rect(
