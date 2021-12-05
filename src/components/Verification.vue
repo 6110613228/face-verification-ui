@@ -172,36 +172,23 @@ export default {
       this.ctx.strokeStyle = "green";
       this.ctx.stroke();
     },
+
     rect(x1, y1, w, h, text) {
       this.ctx.beginPath();
-<<<<<<< HEAD
       this.ctx.rect(this.mask.width * 2 - (this.mask.width + x1 + w), y1, w, h);
-=======
-      this.ctx.rect(
-        this.mask.width * 2 - (this.mask.width + x1 + w),
-        this.mask.height * 2 - (this.mask.height + y1 + h),
-        w,
-        h
-      );
->>>>>>> 82dab2ad2b1133a75504654780e26bc4c6fb1e7a
       this.ctx.font = "30px Arial";
       this.ctx.fillStyle = "green";
       this.ctx.fillText(
         text,
-<<<<<<< HEAD
         ( this.mask.width * 2 ) - (this.mask.width + x1 + w) ,
         y1 - 5
-=======
-        this.mask.width * 2 - (this.mask.width + x1 + w) + x1 * 0.15,
-        this.mask.height * 2 - (this.mask.height + y1 + h) - x1 * 0.025
->>>>>>> 82dab2ad2b1133a75504654780e26bc4c6fb1e7a
       );
       this.ctx.lineWidth = 5;
       this.ctx.strokeStyle = "green";
       this.ctx.stroke();
     },
     webSocketInit() {
-      this.webSocket = new WebSocket("wss://2d25-171-7-38-133.ngrok.io/ws");
+      this.webSocket = new WebSocket("ws://localhost:8000/ws");
 
       this.webSocket.onopen = () => {
         console.log("Connection opened.");
@@ -225,11 +212,11 @@ export default {
 
         if (this.count_face >= 1) {
           this.found_faces.forEach((x) => {
-            let t1 = x["box"][0];
-            let t2 = x["box"][1];
-            let t3 = x["box"][2];
-            let t4 = x["box"][3];
-            let text = x["label"];
+            var t1 = x["box"][0];
+            var t2 = x["box"][1];
+            var t3 = x["box"][2];
+            var t4 = x["box"][3];
+            var text = x["label"];
             this.rect(t1, t2, t3, t4, text);
           });
         }
