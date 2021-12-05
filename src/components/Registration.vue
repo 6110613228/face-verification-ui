@@ -265,7 +265,9 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col class="text-center"> While We're processing your informations. </v-col>
+                <v-col class="text-center">
+                  While We're processing your informations.
+                </v-col>
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="6">
@@ -387,8 +389,8 @@ export default {
         .getUserMedia({
           video: {
             facingMode: "user",
-            width: { ideal: 4096 },
-            height: { ideal: 2160 },
+            width: { ideal: 1920 },
+            height: { ideal: 1080 },
           },
           audio: false,
         })

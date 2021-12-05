@@ -212,7 +212,7 @@ export default {
         this.text = this.found_faces[1]["label"];
         console.log(this.text);
 
-        this.rec();
+        this.rec()
 
 
         console.log(web_socket_response);
