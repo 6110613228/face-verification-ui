@@ -471,7 +471,7 @@ export default {
           this.mask.width * 0.1,
           this.mask.height * 0.2,
           this.mask.width * 0.5,
-          this.mask.height * 0.5
+          this.mask.height * 0.55
         );
         ctx.lineWidth = 5;
         ctx.strokeStyle = "black";
@@ -503,8 +503,82 @@ export default {
         ctx.stroke(path3);
       } else if (this.select_card == 1) {
         console.log("selected = 1");
+                ctx = this.mask.getContext("2d");
+
+        let path1 = new Path2D();
+        path1.rect(
+          this.mask.width * 0.05,
+          this.mask.height * 0.12,
+          this.mask.width * 0.3,
+          this.mask.height * 0.85
+        );
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+        ctx.stroke(path1);
+
+        let path2 = new Path2D();
+        path2.rect(
+          this.mask.width * 0.055,
+          this.mask.height * 0.55,
+          this.mask.width * 0.1,
+          this.mask.height * 0.235
+        );
+        ctx.stroke(path2);
+
+        let path3 = new Path2D();
+        path3.lineWidth = 5;
+        path3.strokeStyle = "green";
+
+        path3.ellipse(
+          this.mask.width * 0.77,
+          this.mask.height * 0.5,
+          this.mask.width * 0.125,
+          this.mask.height * 0.275,
+          0,
+          0,
+          2 * Math.PI
+        );
+        ctx.stroke(path3);
       } else if (this.select_card == 2) {
         console.log("selected = 2");
+                ctx = this.mask.getContext("2d");
+
+        let path1 = new Path2D();
+        path1.rect(
+          this.mask.width * 0.1,
+          this.mask.height * 0.2,
+          this.mask.width * 0.5,
+          this.mask.height * 0.55
+        );
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+        ctx.stroke(path1);
+
+        let path2 = new Path2D();
+        path2.rect(
+          this.mask.width * 0.12,
+          this.mask.height * 0.47,
+          this.mask.width * 0.1,
+          this.mask.height * 0.235
+        );
+        ctx.stroke(path2);
+
+        let path3 = new Path2D();
+        path3.lineWidth = 5;
+        path3.strokeStyle = "green";
+
+        path3.ellipse(
+          this.mask.width * 0.77,
+          this.mask.height * 0.5,
+          this.mask.width * 0.125,
+          this.mask.height * 0.275,
+          0,
+          0,
+          2 * Math.PI
+        );
+        ctx.stroke(path3);
       } else {
         console.log("selected is invalid");
       }
