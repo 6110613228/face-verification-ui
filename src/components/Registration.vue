@@ -138,6 +138,13 @@
                 <v-col>
                   <h1>Step 1: Video หน้าพร้อมบัตร</h1>
                 </v-col>
+                <v-col md="4"
+                  ><v-select
+                    v-model="select_card"
+                    :items="cards"
+                    solo
+                  ></v-select
+                ></v-col>
               </v-row>
               <v-row no-gutters>
                 <v-col class="text-center">
@@ -323,6 +330,13 @@ export default {
 
       mask: null,
 
+      select_card: { text: "Student ID card", value: 0 },
+      cards: [
+        { text: "Student ID card", value: 0 },
+        { text: "Student ID card(Horizontal)", value: 1 },
+        { text: "National ID card", value: 2 },
+      ],
+
       label: "",
       image_file: null,
 
@@ -410,7 +424,7 @@ export default {
           // Set mask width, height
           this.mask.width = width;
           this.mask.height = height;
-          this.draw();
+          this.draw(this.select_card.value);
 
           this.is_begin_record_alert = true;
 
@@ -446,44 +460,48 @@ export default {
           this.alert_text = error.message;
         });
     },
-    draw() {
-      var ctx = this.mask.getContext("2d");
+    draw(selected) {
+      if (selected == 0) {
+        var ctx = this.mask.getContext("2d");
 
-      let path1 = new Path2D();
-      path1.rect(
-        this.mask.width * 0.1,
-        this.mask.height * 0.2,
-        this.mask.width * 0.5,
-        this.mask.height * 0.5
-      );
-      ctx.lineWidth = 5;
-      ctx.strokeStyle = "black";
-      ctx.stroke();
-      ctx.stroke(path1);
+        let path1 = new Path2D();
+        path1.rect(
+          this.mask.width * 0.1,
+          this.mask.height * 0.2,
+          this.mask.width * 0.5,
+          this.mask.height * 0.5
+        );
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+        ctx.stroke(path1);
 
-      let path2 = new Path2D();
-      path2.rect(
-        this.mask.width * 0.125,
-        this.mask.height * 0.25,
-        this.mask.width * 0.095,
-        this.mask.height * 0.235,
-      );
-      ctx.stroke(path2);
+        let path2 = new Path2D();
+        path2.rect(
+          this.mask.width * 0.125,
+          this.mask.height * 0.25,
+          this.mask.width * 0.095,
+          this.mask.height * 0.235
+        );
+        ctx.stroke(path2);
 
-      let path3 = new Path2D();
-      path3.lineWidth = 5;
-      path3.strokeStyle = "green";
+        let path3 = new Path2D();
+        path3.lineWidth = 5;
+        path3.strokeStyle = "green";
 
-      path3.ellipse(
-        this.mask.width * 0.77,
-        this.mask.height * 0.5,
-        this.mask.width * 0.125,
-        this.mask.height * 0.275,
-        0,
-        0,
-        2 * Math.PI
-      );
-      ctx.stroke(path3);
+        path3.ellipse(
+          this.mask.width * 0.77,
+          this.mask.height * 0.5,
+          this.mask.width * 0.125,
+          this.mask.height * 0.275,
+          0,
+          0,
+          2 * Math.PI
+        );
+        ctx.stroke(path3);
+      } else {
+        console.log("Not = 0")
+      }
     },
     sendData() {
       this.is_loading = true;
