@@ -5,7 +5,7 @@
     }}</v-alert>
     <v-row v-if="is_showtext">
       <v-col class="text-center">
-        <h1>{{ messageFormatted }}</h1>
+        <h1 id="response_text" class="orange--text">{{ messageFormatted }}</h1>
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -54,6 +54,10 @@ export default {
       interval: null,
 
       is_showtext: false,
+      response_text: null,
+      count_same_face: 0,
+      count_not_same_face: 0,
+
       count_face: 0,
       is_same_person: "",
       found_faces: null,
@@ -125,6 +129,7 @@ export default {
       this.canvas = document.createElement("canvas");
       this.mask = document.getElementById("myCanvas");
       this.ctx = this.mask.getContext("2d");
+      this.response_text = document.getElementById("response_text");
 
       if (this.stream === null) {
         // Initial camera
@@ -172,7 +177,6 @@ export default {
       this.ctx.strokeStyle = "green";
       this.ctx.stroke();
     },
-
     rect(x1, y1, w, h, text) {
       this.ctx.beginPath();
       this.ctx.rect(this.mask.width * 2 - (this.mask.width + x1 + w), y1, w, h);
@@ -180,7 +184,7 @@ export default {
       this.ctx.fillStyle = "green";
       this.ctx.fillText(
         text,
-        ( this.mask.width * 2 ) - (this.mask.width + x1 + w) ,
+        this.mask.width * 2 - (this.mask.width + x1 + w),
         y1 - 5
       );
       this.ctx.lineWidth = 5;
@@ -210,13 +214,19 @@ export default {
         this.is_same_person = web_socket_response.is_same_person;
         this.found_faces = web_socket_response.found_faces;
 
+        if (this.is_same_person) {
+          this.count_same_face += this.count_same_face + 1;
+        } else {
+          this.count_not_same_face += this.count_not_same_face + 1;
+        }
+
         if (this.count_face >= 1) {
           this.found_faces.forEach((x) => {
-            var t1 = x["box"][0];
-            var t2 = x["box"][1];
-            var t3 = x["box"][2];
-            var t4 = x["box"][3];
-            var text = x["label"];
+            let t1 = x["box"][0];
+            let t2 = x["box"][1];
+            let t3 = x["box"][2];
+            let t4 = x["box"][3];
+            let text = x["label"];
             this.rect(t1, t2, t3, t4, text);
           });
         }
@@ -237,6 +247,10 @@ export default {
   },
   computed: {
     messageFormatted() {
+      if (this.count_same_face == 3) {
+        this.toggleSendImage();
+      }
+
       if (this.count_face > 2) {
         return "Found more than 2 faces";
       } else if (this.count_face == 2) {
