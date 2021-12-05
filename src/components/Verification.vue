@@ -11,7 +11,6 @@
       </v-col>
     </v-row>
     <v-row no-gutters>
-      {{ count_not_same_face }} {{ count_same_face }}
       <v-col class="text-center">
         <div id="group">
           <video id="camera"></video>
