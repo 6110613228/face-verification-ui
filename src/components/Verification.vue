@@ -172,7 +172,6 @@ export default {
       this.ctx.strokeStyle = "green";
       this.ctx.stroke();
     },
-
     rect(x1, y1, w, h, text) {
       this.ctx.beginPath();
       this.ctx.rect(
