@@ -62,6 +62,7 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="1">
+              <!-- Step 1 Example -->
               <v-row>
                 <v-col>
                   <h1>Step 1 Example: Video หน้าพร้อมบัตร</h1>
@@ -122,6 +123,7 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="2">
+              <!-- Step 1 -->
               <v-alert v-if="is_begin_record_alert" type="info" border="left">
                 วีดีโอยังไม่ถูกบันทึกกรุณากด
                 <v-btn color="error" class="mx-2" small>
@@ -172,6 +174,7 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="3">
+              <!-- Step 2 Example -->
               <v-row>
                 <v-col>
                   <h1>
@@ -209,6 +212,7 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="4">
+              <!-- Step 2 -->
               <v-alert v-if="is_fail_result" type="error" border="left">{{
                 response_message
               }}</v-alert>
@@ -253,6 +257,7 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="5">
+              <!-- Waiting -->
               <v-row>
                 <v-col class="text-center"> Please wait </v-col>
               </v-row>
@@ -271,9 +276,10 @@
               </v-row>
             </v-stepper-content>
             <v-stepper-content step="6">
+              <!-- Finished -->
               <v-row>
                 <v-col class="text-center">
-                  <h1>Finish</h1>
+                  <h1>Finished</h1>
                   <h3>We got all required informations</h3>
                   <h1>
                     <v-icon color="primary" x-large>mdi-check-bold</v-icon>
