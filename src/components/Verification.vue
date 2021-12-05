@@ -175,10 +175,19 @@ export default {
 
     rect(x1, y1, w, h, text) {
       this.ctx.beginPath();
-      this.ctx.rect( (this.mask.width * 2) - (this.mask.width + x1 + w), (this.mask.height * 2 ) - (this.mask.height + y1 + h), w, h);
+      this.ctx.rect(
+        this.mask.width * 2 - (this.mask.width + x1 + w),
+        this.mask.height * 2 - (this.mask.height + y1 + h),
+        w,
+        h
+      );
       this.ctx.font = "30px Arial";
       this.ctx.fillStyle = "green";
-      this.ctx.fillText(text, (this.mask.width * 2) - (this.mask.width + x1 + w) + (x1 * 0.15),  (this.mask.height * 2 ) - (this.mask.height + y1 + h) - (x1 * 0.025));
+      this.ctx.fillText(
+        text,
+        this.mask.width * 2 - (this.mask.width + x1 + w) + x1 * 0.15,
+        this.mask.height * 2 - (this.mask.height + y1 + h) - x1 * 0.025
+      );
       this.ctx.lineWidth = 5;
       this.ctx.strokeStyle = "green";
       this.ctx.stroke();
@@ -208,11 +217,11 @@ export default {
 
         if (this.count_face >= 1) {
           this.found_faces.forEach((x) => {
-            var t1 = x["box"][0];
-            var t2 = x["box"][1];
-            var t3 = x["box"][2];
-            var t4 = x["box"][3];
-            var text = x["label"];
+            let t1 = x["box"][0];
+            let t2 = x["box"][1];
+            let t3 = x["box"][2];
+            let t4 = x["box"][3];
+            let text = x["label"];
             this.rect(t1, t2, t3, t4, text);
           });
         }
