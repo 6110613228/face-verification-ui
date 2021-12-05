@@ -368,6 +368,9 @@ export default {
       this.cameraInit();
     },
     step3() {
+      if (this.group.style.display == "None") {
+        this.stopRecord();
+      }
       this.step = 3;
     },
     step4() {
