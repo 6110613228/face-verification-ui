@@ -25,12 +25,12 @@
           <v-icon v-else>mdi-webcam-off</v-icon>
         </v-btn>
       </v-col>
-      <v-col
-        ><v-btn @click="toggleSendImage"
-          ><v-icon v-if="is_sending">mdi-stop</v-icon>
-          <v-icon v-else>mdi-play</v-icon></v-btn
-        ></v-col
-      >
+      <v-col>
+        <v-btn @click="toggleSendImage">
+          <v-icon v-if="is_sending" color="error">mdi-stop</v-icon>
+          <v-icon v-else color="success">mdi-play</v-icon>
+        </v-btn>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -208,7 +208,7 @@ export default {
         let web_socket_response = JSON.parse(event.data);
 
         if (this.found_faces != web_socket_response.found_faces) {
-          this.ctx.clearRect(0, 0, this.mask.width, this.mask.height);
+          this.clearCanvas();
         }
 
         // Assign variables
@@ -239,14 +239,15 @@ export default {
 
         this.response_text = this.messageFormatted();
 
-        if (this.count_face >= 1) {
-          this.found_faces.forEach((x) => {
-            let t1 = x["box"][0];
-            let t2 = x["box"][1];
-            let t3 = x["box"][2];
-            let t4 = x["box"][3];
-            let text = x["label"];
-            this.rect(t1, t2, t3, t4, text);
+        if (this.count_face >= 1 && this.is_sending) {
+          this.found_faces.forEach((face) => {
+            this.rect(
+              face["box"][0],
+              face["box"][1],
+              face["box"][2],
+              face["box"][3],
+              face["label"]
+            );
           });
         }
 
@@ -279,8 +280,12 @@ export default {
           return "No face found";
         }
       } else {
+        this.clearCanvas();
         return this.response_text;
       }
+    },
+    clearCanvas() {
+      this.ctx.clearRect(0, 0, this.mask.width, this.mask.height);
     },
   },
 };
