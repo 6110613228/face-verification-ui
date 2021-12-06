@@ -197,7 +197,7 @@ export default {
       this.ctx.stroke();
     },
     webSocketInit() {
-      this.webSocket = new WebSocket("wss://2d25-171-7-38-133.ngrok.io/ws");
+      this.webSocket = new WebSocket("ws://localhost:8000/ws");
 
       this.webSocket.onopen = () => {
         console.log("Connection opened.");
@@ -216,6 +216,18 @@ export default {
         this.is_same_person = web_socket_response.is_same_person;
         this.found_faces = web_socket_response.found_faces;
 
+        if (this.count_face >= 1 && this.is_sending) {
+          this.found_faces.forEach((face) => {
+            this.rect(
+              face["box"][0],
+              face["box"][1],
+              face["box"][2],
+              face["box"][3],
+              face["label"]
+            );
+          });
+        }
+
         if (this.count_face == 2) {
           if (this.is_same_person) {
             this.count_same_face += 1;
@@ -229,27 +241,30 @@ export default {
           this.response_text_element.className =
             "green--text light-green lighten-1";
           this.response_text = "There are the same person";
+
+          this.count_same_face = 0;
+          this.count_not_same_face = 0;
         }
 
         if (this.count_not_same_face == 20) {
           this.toggleSendImage();
           this.response_text_element.className = "red--text red lighten-3";
-          this.response_text = "There are not the same person";
+
+          if (
+            this.found_faces[0]["label"] == "UNKNOW" &&
+            this.found_faces[1]["label"]
+          ) {
+            this.response_text = "They are both UNKNOW class";
+          } else {
+            this.response_text = "There are not the same person";
+          }
+
+          // reset count
+          this.count_same_face = 0;
+          this.count_not_same_face = 0;
         }
 
         this.response_text = this.messageFormatted();
-
-        if (this.count_face >= 1 && this.is_sending) {
-          this.found_faces.forEach((face) => {
-            this.rect(
-              face["box"][0],
-              face["box"][1],
-              face["box"][2],
-              face["box"][3],
-              face["label"]
-            );
-          });
-        }
 
         console.log(web_socket_response);
       };
@@ -269,11 +284,7 @@ export default {
         if (this.count_face > 2) {
           return "Found more than 2 faces";
         } else if (this.count_face == 2) {
-          if (this.is_same_person) {
-            return "Same person";
-          } else {
-            return "Not same person";
-          }
+          return "Processing..."
         } else if (this.count_face == 1) {
           return "Found only 1 face";
         } else {
@@ -281,11 +292,34 @@ export default {
         }
       } else {
         this.clearCanvas();
+        this.found_faces.forEach((face) => {
+          this.rectOrange(
+            face["box"][0],
+            face["box"][1],
+            face["box"][2],
+            face["box"][3],
+            face["label"]
+          );
+        });
         return this.response_text;
       }
     },
     clearCanvas() {
       this.ctx.clearRect(0, 0, this.mask.width, this.mask.height);
+    },
+    rectOrange(x1, y1, w, h, text) {
+      this.ctx.beginPath();
+      this.ctx.rect(this.mask.width * 2 - (this.mask.width + x1 + w), y1, w, h);
+      this.ctx.font = "30px Arial";
+      this.ctx.fillStyle = "orange";
+      this.ctx.fillText(
+        text,
+        this.mask.width * 2 - (this.mask.width + x1 + w),
+        y1 - 5
+      );
+      this.ctx.lineWidth = 5;
+      this.ctx.strokeStyle = "orange";
+      this.ctx.stroke();
     },
   },
 };
@@ -295,6 +329,7 @@ export default {
 #camera {
   max-width: 80%;
   position: absolute;
+
   /*Mirror code starts*/
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg); /* Safari and Chrome */

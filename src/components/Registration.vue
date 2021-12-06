@@ -601,7 +601,7 @@ export default {
         formData.append("label", this.label);
 
         axios
-          .post("https://2d25-171-7-38-133.ngrok.io/register", formData, {
+          .post("http://localhost:8000/register", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
