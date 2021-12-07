@@ -241,9 +241,6 @@ export default {
           this.response_text_element.className =
             "green--text light-green lighten-1";
           this.response_text = "They are the same person";
-
-          this.count_same_face = 0;
-          this.count_not_same_face = 0;
         }
 
         if (this.count_not_same_face == 20) {
@@ -258,10 +255,6 @@ export default {
           } else {
             this.response_text = "They are not the same person";
           }
-
-          // reset count
-          this.count_same_face = 0;
-          this.count_not_same_face = 0;
         }
 
         this.response_text = this.messageFormatted();
