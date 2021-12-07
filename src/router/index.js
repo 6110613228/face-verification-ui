@@ -28,11 +28,13 @@ const routes = [
     path: "/registration",
     name: "Registration",
     component: Registration,
+    meta: { title: "FaceCN registration" },
   },
   {
     path: "/verification",
     name: "Verification",
     component: Verificationn,
+    meta: { title: "FaceCN verification" },
   },
 ];
 

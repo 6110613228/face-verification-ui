@@ -240,7 +240,7 @@ export default {
           this.toggleSendImage();
           this.response_text_element.className =
             "green--text light-green lighten-1";
-          this.response_text = "There are the same person";
+          this.response_text = "They are the same person";
 
           this.count_same_face = 0;
           this.count_not_same_face = 0;
@@ -256,7 +256,7 @@ export default {
           ) {
             this.response_text = "They are both UNKNOW class";
           } else {
-            this.response_text = "There are not the same person";
+            this.response_text = "They are not the same person";
           }
 
           // reset count
@@ -284,7 +284,7 @@ export default {
         if (this.count_face > 2) {
           return "Found more than 2 faces";
         } else if (this.count_face == 2) {
-          return "Processing..."
+          return "Processing...";
         } else if (this.count_face == 1) {
           return "Found only 1 face";
         } else {
@@ -320,6 +320,14 @@ export default {
       this.ctx.lineWidth = 5;
       this.ctx.strokeStyle = "orange";
       this.ctx.stroke();
+    },
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = to.meta.title || "FaceCN";
+      },
     },
   },
 };

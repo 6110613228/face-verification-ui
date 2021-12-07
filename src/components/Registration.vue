@@ -195,9 +195,13 @@
                 <v-col>
                   <h2>ทำการกรอก</h2>
                   <ol>
-                    <li>เลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษาของตนเอง</li>
                     <li>
-                      อัพโหลดรูปภาพหน้าบัตรประจำตัวประชาชนหรือบัตรนักศึกษา&nbsp;<strong>แนวนอน</strong>
+                      เลขบัตรประจำตัวประชาชนหรือเลขประจำตัวนักศึกษาของตนเอง
+                    </li>
+                    <li>
+                      อัพโหลดรูปภาพหน้าบัตรประจำตัวประชาชนหรือบัตรนักศึกษา&nbsp;<strong
+                        >แนวนอน</strong
+                      >
                     </li>
                   </ol>
                 </v-col>
@@ -506,7 +510,7 @@ export default {
         ctx.stroke(path3);
       } else if (this.select_card == 1) {
         console.log("selected = 1");
-                ctx = this.mask.getContext("2d");
+        ctx = this.mask.getContext("2d");
 
         let path1 = new Path2D();
         path1.rect(
@@ -545,7 +549,7 @@ export default {
         ctx.stroke(path3);
       } else if (this.select_card == 2) {
         console.log("selected = 2");
-                ctx = this.mask.getContext("2d");
+        ctx = this.mask.getContext("2d");
 
         let path1 = new Path2D();
         path1.rect(
@@ -641,6 +645,14 @@ export default {
   },
   mounted() {
     this.init();
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        document.title = to.meta.title || "FaceCN";
+      },
+    },
   },
 };
 </script>
