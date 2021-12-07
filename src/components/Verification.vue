@@ -297,6 +297,7 @@ export default {
               face["label"]
             );
           });
+          this.count += 1;
         }
         return this.response_text;
       }
