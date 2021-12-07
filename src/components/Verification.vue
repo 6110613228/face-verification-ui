@@ -256,6 +256,7 @@ export default {
 
           this.count_same_face = 0;
           this.count_not_same_face = 0;
+          this.count = 0;
         }
 
         if (this.count_not_same_face == 20) {
@@ -273,6 +274,7 @@ export default {
 
           this.count_same_face = 0;
           this.count_not_same_face = 0;
+          this.count = 0;
         }
 
         this.response_text = this.messageFormatted();
