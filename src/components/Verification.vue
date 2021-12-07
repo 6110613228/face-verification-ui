@@ -284,7 +284,7 @@ export default {
         if (this.count_face > 2) {
           return "Found more than 2 faces";
         } else if (this.count_face == 2) {
-          return "Processing...";
+          return "Deciding...";
         } else if (this.count_face == 1) {
           return "Found only 1 face";
         } else {
