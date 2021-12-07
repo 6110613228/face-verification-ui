@@ -197,7 +197,7 @@ export default {
       this.ctx.stroke();
     },
     webSocketInit() {
-      this.webSocket = new WebSocket("ws://localhost:8000/ws");
+      this.webSocket = new WebSocket("wss://a77c-171-7-38-133.ngrok.io/ws");
 
       this.webSocket.onopen = () => {
         console.log("Connection opened.");

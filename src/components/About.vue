@@ -3,11 +3,11 @@
     <h1>Project FaceCN</h1>
     <h2>Team</h2>
     <ul>
-      <li>Wanachai</li>
-      <li>Packawat</li>
+      <li>Pakcawat Issarawisarnpol</li>
       <li>Poonnatuch Boonyarattanasoontorn</li>
+      <li>Rathapol Putharaksa</li>
+      <li>Wanchana Moonmuang</li>
       <li>Yodsatorn Pantongkam</li>
-      <li>Rathapol Phutharaksa</li>
     </ul>
     <h2>Github</h2>
     <ul>
