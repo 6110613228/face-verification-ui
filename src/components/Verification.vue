@@ -67,6 +67,8 @@ export default {
       is_alert: false,
       alert_type: "success",
       alert_text: "",
+
+      count: 0,
     };
   },
   mounted() {
@@ -284,16 +286,18 @@ export default {
           return "No face found";
         }
       } else {
-        this.clearCanvas();
-        this.found_faces.forEach((face) => {
-          this.rectOrange(
-            face["box"][0],
-            face["box"][1],
-            face["box"][2],
-            face["box"][3],
-            face["label"]
-          );
-        });
+        if (this.count == 0) {
+          this.clearCanvas();
+          this.found_faces.forEach((face) => {
+            this.rectOrange(
+              face["box"][0],
+              face["box"][1],
+              face["box"][2],
+              face["box"][3],
+              face["label"]
+            );
+          });
+        }
         return this.response_text;
       }
     },
