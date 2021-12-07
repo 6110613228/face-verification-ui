@@ -85,10 +85,15 @@ export default {
         // Set stream to null (No mediaStream)
         this.stream = null;
 
-        this.toggleSendImage();
+        this.stopSendImage();
       } else {
         this.Init();
       }
+    },
+    stopSendImage() {
+      this.is_sending = false;
+      clearInterval(this.interval);
+      this.interval = null;
     },
     toggleSendImage() {
       if (this.webSocket.readyState == this.webSocket.OPEN) {
@@ -244,14 +249,17 @@ export default {
         }
 
         if (this.count_same_face == 3) {
-          this.toggleSendImage();
+          this.stopSendImage();
           this.response_text_element.className =
             "green--text light-green lighten-1";
           this.response_text = "They are the same person";
+
+          this.count_same_face = 0;
+          this.count_not_same_face = 0;
         }
 
         if (this.count_not_same_face == 20) {
-          this.toggleSendImage();
+          this.stopSendImage();
           this.response_text_element.className = "red--text red lighten-3";
 
           if (
@@ -262,6 +270,9 @@ export default {
           } else {
             this.response_text = "They are not the same person";
           }
+
+          this.count_same_face = 0;
+          this.count_not_same_face = 0;
         }
 
         this.response_text = this.messageFormatted();
