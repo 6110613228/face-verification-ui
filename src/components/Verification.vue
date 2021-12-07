@@ -209,7 +209,7 @@ export default {
         // Parse JSON string to JSON object
         let web_socket_response = JSON.parse(event.data);
 
-        if (this.found_faces != web_socket_response.found_faces) {
+        if (this.found_faces != web_socket_response.found_faces && this.is_sending) {
           this.clearCanvas();
         }
 
