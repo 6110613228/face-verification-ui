@@ -32,6 +32,12 @@
             >
             <v-list-item-title>Face verification</v-list-item-title>
           </v-list-item>
+          <v-list-item to="/about">
+            <v-list-item-icon
+              ><v-icon>mdi-information</v-icon></v-list-item-icon
+            >
+            <v-list-item-title>About</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
