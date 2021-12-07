@@ -209,7 +209,10 @@ export default {
         // Parse JSON string to JSON object
         let web_socket_response = JSON.parse(event.data);
 
-        if (this.found_faces != web_socket_response.found_faces && this.is_sending) {
+        if (
+          this.found_faces != web_socket_response.found_faces &&
+          this.is_sending
+        ) {
           this.clearCanvas();
         }
 
@@ -230,11 +233,13 @@ export default {
           });
         }
 
-        if (this.count_face == 2) {
-          if (this.is_same_person) {
-            this.count_same_face += 1;
-          } else {
-            this.count_not_same_face += 1;
+        if (this.is_sending) {
+          if (this.count_face == 2) {
+            if (this.is_same_person) {
+              this.count_same_face += 1;
+            } else {
+              this.count_not_same_face += 1;
+            }
           }
         }
 
